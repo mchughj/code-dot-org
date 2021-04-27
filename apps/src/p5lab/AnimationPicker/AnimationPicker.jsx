@@ -38,7 +38,6 @@ class AnimationPicker extends React.Component {
   static propTypes = {
     // Provided externally
     channelId: PropTypes.string.isRequired,
-    allowedExtensions: PropTypes.string,
     libraryManifest: PropTypes.object.isRequired,
     hideUploadOption: PropTypes.bool.isRequired,
     hideAnimationNames: PropTypes.bool.isRequired,
@@ -111,7 +110,7 @@ class AnimationPicker extends React.Component {
             createUuid() +
             '.png'
           }
-          allowedExtensions={this.props.allowedExtensions}
+          allowedExtensions=".png,.jpg,.jpeg"
           onUploadStart={this.props.onUploadStart}
           onUploadDone={this.props.onUploadDone}
           onUploadError={this.props.onUploadError}

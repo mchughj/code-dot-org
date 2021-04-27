@@ -120,7 +120,6 @@ class P5LabView extends React.Component {
           {this.getChannelId() && (
             <AnimationPicker
               channelId={this.getChannelId()}
-              allowedExtensions=".png,.jpg,.jpeg"
               libraryManifest={this.state.libraryManifest}
               hideUploadOption={this.props.spriteLab}
               hideAnimationNames={this.props.spriteLab}
