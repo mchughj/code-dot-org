@@ -4,7 +4,8 @@ import React from 'react';
 import Radium from 'radium';
 import {connect} from 'react-redux';
 import color from '@cdo/apps/util/color';
-import AnimationPicker from '../AnimationPicker/AnimationPicker';
+import SpritelabAnimationPicker from '../AnimationPicker/SpritelabAnimationPicker';
+import GamelabAnimationPicker from '../AnimationPicker/GamelabAnimationPicker';
 import P5LabVisualizationHeader from '../P5LabVisualizationHeader';
 import {setColumnSizes} from './animationTabModule';
 import AnimationList from './AnimationList';
@@ -66,6 +67,7 @@ class AnimationTab extends React.Component {
     hideUploadOption: PropTypes.bool.isRequired,
     hideAnimationNames: PropTypes.bool.isRequired,
     hideBackgrounds: PropTypes.bool.isRequired,
+    isSpritelab: PropTypes.bool.isRequired,
 
     // Provided by Redux
     columnSizes: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -97,17 +99,28 @@ class AnimationTab extends React.Component {
             </div>
           </div>
         </ResizablePanes>
-        {this.props.channelId && (
-          <AnimationPicker
-            channelId={this.props.channelId}
-            libraryManifest={this.props.libraryManifest}
-            hideUploadOption={this.props.hideUploadOption}
-            hideAnimationNames={this.props.hideAnimationNames}
-            navigable={true}
-            canDraw={true}
-            hideBackgrounds={this.props.hideBackgrounds}
-          />
-        )}
+        {this.props.channelId &&
+          (this.props.isSpritelab ? (
+            <SpritelabAnimationPicker
+              channelId={this.props.channelId}
+              libraryManifest={this.props.libraryManifest}
+              hideUploadOption={this.props.hideUploadOption}
+              hideAnimationNames={this.props.hideAnimationNames}
+              navigable={true}
+              canDraw={true}
+              hideBackgrounds={this.props.hideBackgrounds}
+            />
+          ) : (
+            <GamelabAnimationPicker
+              channelId={this.props.channelId}
+              libraryManifest={this.props.libraryManifest}
+              hideUploadOption={this.props.hideUploadOption}
+              hideAnimationNames={this.props.hideAnimationNames}
+              navigable={true}
+              canDraw={true}
+              hideBackgrounds={this.props.hideBackgrounds}
+            />
+          ))}
       </div>
     );
   }

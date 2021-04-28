@@ -17,7 +17,8 @@ import CodeWorkspace from '@cdo/apps/templates/CodeWorkspace';
 import {allowAnimationMode, showVisualizationHeader} from './stateQueries';
 import IFrameEmbedOverlay from '@cdo/apps/templates/IFrameEmbedOverlay';
 import VisualizationResizeBar from '@cdo/apps/lib/ui/VisualizationResizeBar';
-import AnimationPicker from './AnimationPicker/AnimationPicker';
+import SpritelabAnimationPicker from './AnimationPicker/SpritelabAnimationPicker';
+import GamelabAnimationPicker from './AnimationPicker/GamelabAnimationPicker';
 
 /**
  * Top-level React wrapper for GameLab
@@ -117,18 +118,34 @@ class P5LabView extends React.Component {
             pauseHandler={this.props.pauseHandler}
             hidePauseButton={this.props.hidePauseButton}
           />
-          {this.getChannelId() && (
-            <AnimationPicker
-              channelId={this.getChannelId()}
-              libraryManifest={this.state.libraryManifest}
-              hideUploadOption={this.props.spriteLab}
-              hideAnimationNames={this.props.spriteLab}
-              navigable={navigable}
-              defaultQuery={this.props.isBackground ? defaultQuery : undefined}
-              hideBackgrounds={hideBackgrounds}
-              canDraw={canDraw}
-            />
-          )}
+          {this.getChannelId() &&
+            (this.props.spriteLab ? (
+              <SpritelabAnimationPicker
+                channelId={this.getChannelId()}
+                libraryManifest={this.state.libraryManifest}
+                hideUploadOption={this.props.spriteLab}
+                hideAnimationNames={this.props.spriteLab}
+                navigable={navigable}
+                defaultQuery={
+                  this.props.isBackground ? defaultQuery : undefined
+                }
+                hideBackgrounds={hideBackgrounds}
+                canDraw={canDraw}
+              />
+            ) : (
+              <GamelabAnimationPicker
+                channelId={this.getChannelId()}
+                libraryManifest={this.state.libraryManifest}
+                hideUploadOption={this.props.spriteLab}
+                hideAnimationNames={this.props.spriteLab}
+                navigable={navigable}
+                defaultQuery={
+                  this.props.isBackground ? defaultQuery : undefined
+                }
+                hideBackgrounds={hideBackgrounds}
+                canDraw={canDraw}
+              />
+            ))}
         </div>
         {this.props.isIframeEmbed && !this.props.isRunning && (
           <IFrameEmbedOverlay
@@ -156,6 +173,7 @@ class P5LabView extends React.Component {
         hideUploadOption={this.props.spriteLab}
         hideAnimationNames={this.props.spriteLab}
         hideBackgrounds={this.props.spriteLab}
+        isSpritelab={this.props.spriteLab}
       />
     ) : (
       undefined
