@@ -16,6 +16,7 @@ class BlocksController < ApplicationController
   end
 
   def edit
+    @use_google_blockly = params[:blocklyVersion] == "Google"
     if @block.pool != params[:pool]
       redirect_to(edit_block_path(pool: @block.pool, id: @block.name))
     end
