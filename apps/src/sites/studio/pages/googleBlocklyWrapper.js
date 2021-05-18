@@ -1,3 +1,4 @@
+import {FieldSlider} from '@blockly/field-slider';
 import {BlocklyVersion} from '@cdo/apps/constants';
 import styleConstants from '@cdo/apps/styleConstants';
 import CdoBlockDragger from '@cdo/apps/blocklyAddons/cdoBlockDragger';
@@ -89,6 +90,7 @@ function initializeBlocklyWrapper(blocklyInstance) {
   blocklyWrapper.wrapReadOnlyProperty('FieldLabel');
   blocklyWrapper.wrapReadOnlyProperty('FieldParameter');
   blocklyWrapper.wrapReadOnlyProperty('FieldRectangularDropdown');
+  blocklyWrapper.wrapReadOnlyProperty('FieldSlider');
   blocklyWrapper.wrapReadOnlyProperty('FieldTextInput');
   blocklyWrapper.wrapReadOnlyProperty('FieldVariable');
   blocklyWrapper.wrapReadOnlyProperty('fish_locale');
@@ -137,6 +139,7 @@ function initializeBlocklyWrapper(blocklyInstance) {
   blocklyWrapper.blockly_.BlockSvg = CdoBlockSvg;
   blocklyWrapper.blockly_.FieldDropdown = CdoFieldDropdown;
   blocklyWrapper.blockly_.FieldImageDropdown = CdoFieldImageDropdown;
+  blocklyWrapper.blockly_.FieldSlider = FieldSlider;
   blocklyWrapper.blockly_.FunctionEditor = FunctionEditor;
   blocklyWrapper.blockly_.Input = CdoInput;
   blocklyWrapper.blockly_.MetricsManager = CdoMetricsManager;

@@ -1560,6 +1560,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@blockly/field-slider@^2.1.17":
+  version "2.1.17"
+  resolved "https://registry.yarnpkg.com/@blockly/field-slider/-/field-slider-2.1.17.tgz#e0e124f2a2e95b65ff9f8a3932e30de5e5904ff0"
+  integrity sha512-KCr0iPsKAsNCrLGN9718+KCl4GWwlw71xAkL1ngbDjDYJiP7O22jPGS9GtlKX7TEijDWIEq0iIJ2uRMi6RHfAQ==
+
 "@cdo/interpreted@link:../dashboard/config/libraries":
   version "0.0.0"
   uid ""
