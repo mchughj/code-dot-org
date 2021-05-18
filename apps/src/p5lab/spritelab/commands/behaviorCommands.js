@@ -46,7 +46,7 @@ export const commands = {
         return;
       }
 
-      const range = 100;
+      const range = 400 * sprite.scale;
       const targetsInRange = sprite.targetSet.avoid
         .map(x => coreLibrary.getSpriteArray({costume: x}))
         .flat()
@@ -68,7 +68,7 @@ export const commands = {
         totalY / targetsInRange.length
       );
 
-      actionCommands.moveToward(spriteArg, -5, averagePosition);
+      actionCommands.moveToward(spriteArg, -sprite.speed, averagePosition);
       actionCommands.edgesDisplace.apply(p5Inst, [spriteArg]);
     };
   },
@@ -100,7 +100,11 @@ export const commands = {
           closestTarget = target;
         }
       });
-      actionCommands.moveToward(spriteArg, 5, closestTarget.position);
+      actionCommands.moveToward(
+        spriteArg,
+        sprite.speed,
+        closestTarget.position
+      );
     };
   },
 
