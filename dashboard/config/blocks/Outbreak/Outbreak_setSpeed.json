@@ -6,8 +6,7 @@
     "args": [
       {
         "name": "VAL",
-        "type": "Number",
-        "field": true
+        "field": "SLIDER"
       }
     ]
   }

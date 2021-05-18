@@ -504,9 +504,8 @@ exports.appendNewFunctions = function(blocksXml, functionsXml) {
  *   which is passed as a callback function.
  * @property {string} customInput Use the customInput type under this name to
  *   add this input to the block.
- * @property {boolean} field Indicates that an input is a field input, i.e. a
- *   textbox. The generated code will be wrapped in quotes if the arg has type
- *   "String".
+ * @property {string} field Indicates that an input is a field input, i.e. a
+ *   textbox. Supported field types are: string, slider, image.
  * @property {boolean} dummy Indicates that an input should be a dummy input, i.e. does
  * not render a connection or generate code. Useful as a line break or to add an
  * image to a block.
@@ -533,7 +532,8 @@ const VALUE_INPUT = 'value';
 const INLINE_DUMMY_INPUT = 'inlineDummy';
 const DUMMY_INPUT = 'dummy';
 const STATEMENT_INPUT = 'statement';
-const FIELD_INPUT = 'field';
+const FIELD_TEXT_INPUT = 'fieldText';
+const FIELD_SLIDER_INPUT = 'fieldSlider';
 const VARIABLE_INPUT = 'variable';
 
 /**
@@ -593,8 +593,10 @@ const determineInputs = function(text, args, strictTypes = []) {
       let mode;
       if (arg.options) {
         mode = DROPDOWN_INPUT;
-      } else if (arg.field) {
-        mode = FIELD_INPUT;
+      } else if (arg.field === 'TEXT') {
+        mode = FIELD_TEXT_INPUT;
+      } else if (arg.field === 'SLIDER') {
+        mode = FIELD_SLIDER_INPUT;
       } else if (arg.customInput) {
         mode = arg.customInput;
       } else if (arg.statement) {
@@ -769,7 +771,7 @@ const STANDARD_INPUT_TYPES = {
       );
     }
   },
-  [FIELD_INPUT]: {
+  [FIELD_TEXT_INPUT]: {
     addInput(blockly, block, inputConfig, currentInputRow) {
       const fieldTextInput = new blockly.FieldTextInput(
         '',
@@ -786,6 +788,20 @@ const STANDARD_INPUT_TYPES = {
         code = JSON.stringify(code);
       }
       return code;
+    }
+  },
+  [FIELD_SLIDER_INPUT]: {
+    addInput(blockly, block, inputConfig, currentInputRow) {
+      if (!blockly.FieldSlider) {
+        return;
+      }
+      const fieldSliderInput = new blockly.FieldSlider(0, 0, 10);
+      currentInputRow
+        .appendTitle(inputConfig.label)
+        .appendTitle(fieldSliderInput, inputConfig.name);
+    },
+    generateCode(block, inputConfig) {
+      return block.getTitleValue(inputConfig.name);
     }
   }
 };

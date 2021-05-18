@@ -9,7 +9,7 @@
       {
         "name": "COUNT",
         "type": "Number",
-        "field": true
+        "field": "TEXT"
       }
     ],
     "color": [

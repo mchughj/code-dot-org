@@ -7,7 +7,7 @@
       {
         "name": "NUM",
         "type": "Number",
-        "field": true
+        "field": "TEXT"
       }
     ]
   }
