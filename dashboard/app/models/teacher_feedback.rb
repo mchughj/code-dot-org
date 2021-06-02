@@ -17,6 +17,7 @@
 #  seen_on_feedback_page_at :datetime
 #  script_id                :integer          not null
 #  analytics_section_id     :integer
+#  review_state             :string(255)
 #
 # Indexes
 #
@@ -32,6 +33,13 @@ class TeacherFeedback < ApplicationRecord
   belongs_to :script
   belongs_to :level
   belongs_to :teacher, class_name: 'User'
+
+  REVIEW_STATES = [
+    "keepWorking",
+    "completed"
+  ]
+
+  validates_inclusion_of :review_state, in: REVIEW_STATES, allow_nil: true
 
   # Finds the script level associated with this object, using script id and
   # level id.

@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import {LevelStatus} from '@cdo/apps/util/sharedConstants';
 import {
-  levelProgressFromStatus,
+  levelProgressFromServer,
   lessonProgressForSection
 } from '@cdo/apps/templates/progress/progressHelpers';
 import {createStore} from 'redux';
@@ -18,12 +18,12 @@ export const fakeLesson = (
   name,
   id,
   lockable = false,
-  stageNumber = undefined
+  lessonNumber = undefined
 ) => ({
   name,
   id,
   lockable,
-  stageNumber,
+  lessonNumber,
   isFocusArea: false
 });
 
@@ -34,6 +34,7 @@ export const fakeLevel = (overrides = {}) => {
   return {
     id: id,
     status: LevelStatus.not_tried,
+    isLocked: false,
     levelNumber: levelNumber,
     bubbleText: levelNumber.toString(),
     url: `/level${levelNumber}`,
@@ -57,11 +58,15 @@ export const fakeLevels = (numLevels, {startLevel = 1, named = true} = {}) =>
 
 export const fakeProgressForLevels = (
   levels,
-  status = LevelStatus.not_tried
+  status = LevelStatus.not_tried,
+  serverProgressOverrides = {}
 ) => {
   const progress = {};
   levels.forEach(level => {
-    progress[level.id] = levelProgressFromStatus(status);
+    progress[level.id] = levelProgressFromServer({
+      status: status,
+      ...serverProgressOverrides
+    });
   });
   return progress;
 };
@@ -73,8 +78,8 @@ export const fakeProgressForLevels = (
  */
 export const createStoreWithHiddenLesson = (viewAs, lessonId) => {
   return createStore(state => state, {
-    stageLock: {
-      stagesBySectionId: {
+    lessonLock: {
+      lessonsBySectionId: {
         '11': {}
       },
       lockableAuthorized: false
@@ -83,8 +88,8 @@ export const createStoreWithHiddenLesson = (viewAs, lessonId) => {
     teacherSections: {
       selectedSectionId: '11'
     },
-    hiddenStage: Immutable.fromJS({
-      stagesBySection: {
+    hiddenLesson: Immutable.fromJS({
+      lessonsBySection: {
         '11': {[lessonId]: true}
       }
     }),
@@ -107,8 +112,8 @@ export const createStoreWithLockedLesson = (
   lockableAuthorized = false
 ) => {
   return createStore(state => state, {
-    stageLock: {
-      stagesBySectionId: {
+    lessonLock: {
+      lessonsBySectionId: {
         '11': {}
       },
       lockableAuthorized: lockableAuthorized
@@ -117,8 +122,8 @@ export const createStoreWithLockedLesson = (
     teacherSections: {
       selectedSectionId: '11'
     },
-    hiddenStage: Immutable.fromJS({
-      stagesBySection: {
+    hiddenLesson: Immutable.fromJS({
+      lessonsBySection: {
         '11': {[lessonId]: true}
       }
     }),
@@ -176,8 +181,16 @@ export const fakeScriptData = (overrideFields = {}) => {
   };
 };
 
-export const fakeStudentLevelProgress = (levels, students) => {
-  const progressOnLessons = fakeProgressForLevels(levels);
+export const fakeStudentLevelProgress = (
+  levels,
+  students,
+  serverProgressOverrides = {}
+) => {
+  const progressOnLessons = fakeProgressForLevels(
+    levels,
+    serverProgressOverrides.status,
+    serverProgressOverrides
+  );
 
   const studentProgress = {};
   students.forEach(student => {
@@ -221,7 +234,7 @@ export const fakeProgressTableReduxInitialState = (
     progress: {
       lessonGroups: [],
       stages: stages,
-      focusAreaStageIds: [],
+      focusAreaLessonIds: [],
       professionalLearningCourse: false
     },
     sectionData: {

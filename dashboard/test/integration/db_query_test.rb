@@ -11,8 +11,8 @@ class DBQueryTest < ActionDispatch::IntegrationTest
     sign_in student
 
     script = Script.get_from_cache('allthethings')
-    stage = script.lessons.first
-    level = stage.script_levels.first.levels.first
+    lesson = script.lessons.first
+    level = lesson.script_levels.first.levels.first
 
     create :user_level,
       user: student,
@@ -20,7 +20,7 @@ class DBQueryTest < ActionDispatch::IntegrationTest
       level: level,
       level_source: create(:level_source, level: level)
 
-    assert_cached_queries(14) do
+    assert_cached_queries(13) do
       get script_lesson_script_level_path(
         script_id: script.name,
         lesson_position: 1,
@@ -35,8 +35,8 @@ class DBQueryTest < ActionDispatch::IntegrationTest
     sign_in student
 
     script = Script.hoc_2014_script
-    stage = script.lessons.first
-    level = stage.script_levels.first.levels.first
+    lesson = script.lessons.first
+    level = lesson.script_levels.first.levels.first
 
     create :user_level,
       user: student,
@@ -44,7 +44,7 @@ class DBQueryTest < ActionDispatch::IntegrationTest
       level: level,
       level_source: create(:level_source, level: level)
 
-    user_progress_path = user_progress_for_stage_and_level_path(
+    user_progress_path = user_progress_for_lesson_and_level_path(
       script: script.name,
       lesson_position: 1,
       level_position: 1,

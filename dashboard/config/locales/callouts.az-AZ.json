@@ -83,6 +83,21 @@
         },
         "frozen line": {
           "move_elsa_forward": "Elzanı irəli aparmaq üçün \"irəli get\" blokunu sürükləyib şıqqıltı ilə \"icra etdikdə\" blokunun aşağısına yapışdırın"
+        },
+        "CourseD_Dance_2020_02": {
+          "dance_callout_11_a": "Bu bloku proqramına əlavə et"
+        },
+        "CourseD_Dance_2020_05": {
+          "dance_callout_05": "Proqramına yeni hadisə əlavə et"
+        },
+        "outbreak2": {
+          "pointerlocation": "Mövzu blokunu bura çəkin."
+        },
+        "courseA_maze_seq2": {
+          "courseA_maze_seqA_callout1": "Proqramı addım-addım keçmək üçün addım düyməsini istifadə edin. Bu, səhvi tapmaqda kömək edəcək!"
+        },
+        "courseB_maze_seq2": {
+          "courseB_maze_seq2_callout1": "Proqramı addım-addım keçmək üçün addım düyməsini istifadə edin. Bu, səhvi tapmaqda kömək edəcək!"
         }
       }
     }

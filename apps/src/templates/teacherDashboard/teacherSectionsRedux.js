@@ -11,13 +11,14 @@ import firehoseClient from '@cdo/apps/lib/util/firehose';
 const USER_EDITABLE_SECTION_PROPS = [
   'name',
   'loginType',
-  'stageExtras',
+  'lessonExtras',
   'pairingAllowed',
   'ttsAutoplayEnabled',
   'courseId',
   'scriptId',
   'grade',
-  'hidden'
+  'hidden',
+  'restrictSection'
 ];
 
 /** @const {number} ID for a new section that has not been saved */
@@ -43,13 +44,18 @@ const importUrlByProvider = {
 //
 const SET_VALID_GRADES = 'teacherDashboard/SET_VALID_GRADES';
 const SET_VALID_ASSIGNMENTS = 'teacherDashboard/SET_VALID_ASSIGNMENTS';
-const SET_STAGE_EXTRAS_SCRIPT_IDS =
-  'teacherDashboard/SET_STAGE_EXTRAS_SCRIPT_IDS';
+const SET_LESSON_EXTRAS_SCRIPT_IDS =
+  'teacherDashboard/SET_LESSON_EXTRAS_SCRIPT_IDS';
 const SET_TEXT_TO_SPEECH_SCRIPT_IDS =
   'teacherDashboard/SET_TEXT_TO_SPEECH_SCRIPT_IDS';
 const SET_PREREADER_SCRIPT_IDS = 'teacherDashboard/SET_PREREADER_SCRIPT_IDS';
 const SET_STUDENT_SECTION = 'teacherDashboard/SET_STUDENT_SECTION';
 const SET_PAGE_TYPE = 'teacherDashboard/SET_PAGE_TYPE';
+
+// DCDO Flag - show/hide Lock Section field
+const SET_SHOW_LOCK_SECTION_FIELD =
+  'teacherDashboard/SET_SHOW_LOCK_SECTION_FIELD';
+
 /** Sets teacher's current authentication providers */
 const SET_AUTH_PROVIDERS = 'teacherDashboard/SET_AUTH_PROVIDERS';
 const SET_SECTIONS = 'teacherDashboard/SET_SECTIONS';
@@ -103,8 +109,8 @@ export const __testInterface__ = {
 // Action Creators
 //
 export const setValidGrades = grades => ({type: SET_VALID_GRADES, grades});
-export const setStageExtrasScriptIds = ids => ({
-  type: SET_STAGE_EXTRAS_SCRIPT_IDS,
+export const setLessonExtrasScriptIds = ids => ({
+  type: SET_LESSON_EXTRAS_SCRIPT_IDS,
   ids
 });
 export const setTextToSpeechScriptIds = ids => ({
@@ -135,13 +141,21 @@ export const setStudentsForCurrentSection = (sectionId, studentInfo) => ({
 });
 export const setPageType = pageType => ({type: SET_PAGE_TYPE, pageType});
 
+// DCDO Flag - show/hide Lock Section field
+export const setShowLockSectionField = showLockSectionField => {
+  return {
+    type: SET_SHOW_LOCK_SECTION_FIELD,
+    showLockSectionField
+  };
+};
+
 // pageType describes the current route the user is on. Used only for logging.
 // Enum of allowed values:
 export const pageTypes = {
   level: 'level',
   scriptOverview: 'script_overview',
   courseOverview: 'course_overview',
-  stageExtras: 'stage_extras',
+  lessonExtras: 'stage_extras',
   homepage: 'homepage'
 };
 
@@ -509,7 +523,7 @@ const initialState = {
   sectionBeingEdited: null,
   showSectionEditDialog: false,
   saveInProgress: false,
-  stageExtrasScriptIds: [],
+  lessonExtrasScriptIds: [],
   textToSpeechScriptIds: [],
   preReaderScriptIds: [],
   // Track whether we've async-loaded our section and assignment data
@@ -524,7 +538,10 @@ const initialState = {
   // Error that occurred while loading oauth classrooms
   loadError: null,
   // The page where the action is occurring
-  pageType: ''
+  pageType: '',
+
+  // DCDO Flag - show/hide Lock Section field
+  showLockSectionField: null
 };
 
 /**
@@ -542,7 +559,7 @@ function newSectionData(id, courseId, scriptId, loginType) {
     loginType: loginType,
     grade: '',
     providerManaged: false,
-    stageExtras: true,
+    lessonExtras: true,
     pairingAllowed: true,
     ttsAutoplayEnabled: false,
     sharingDisabled: false,
@@ -551,12 +568,13 @@ function newSectionData(id, courseId, scriptId, loginType) {
     courseId: courseId || null,
     scriptId: scriptId || null,
     hidden: false,
-    isAssigned: undefined
+    isAssigned: undefined,
+    restrictSection: false
   };
 }
 
 const defaultVersionYear = '2017';
-const defaultStageExtras = false;
+const defaultLessonExtras = false;
 
 // Fields to copy from the assignmentInfo when creating an assignmentFamily.
 export const assignmentFamilyFields = [
@@ -588,10 +606,10 @@ export default function teacherSections(state = initialState, action) {
     };
   }
 
-  if (action.type === SET_STAGE_EXTRAS_SCRIPT_IDS) {
+  if (action.type === SET_LESSON_EXTRAS_SCRIPT_IDS) {
     return {
       ...state,
-      stageExtrasScriptIds: action.ids
+      lessonExtrasScriptIds: action.ids
     };
   }
 
@@ -833,7 +851,7 @@ export default function teacherSections(state = initialState, action) {
       }
     }
 
-    const stageExtraSettings = {};
+    const lessonExtraSettings = {};
     const ttsAutoplayEnabledSettings = {};
     if (action.props.scriptId) {
       // TODO: enable autoplay by default if script is a pre-reader script
@@ -843,8 +861,8 @@ export default function teacherSections(state = initialState, action) {
       const script =
         state.validAssignments[assignmentId(null, action.props.scriptId)];
       if (script) {
-        stageExtraSettings.stageExtras =
-          script.lesson_extras_available || defaultStageExtras;
+        lessonExtraSettings.lessonExtras =
+          script.lesson_extras_available || defaultLessonExtras;
       }
     }
 
@@ -852,7 +870,7 @@ export default function teacherSections(state = initialState, action) {
       ...state,
       sectionBeingEdited: {
         ...state.sectionBeingEdited,
-        ...stageExtraSettings,
+        ...lessonExtraSettings,
         ...ttsAutoplayEnabledSettings,
         ...action.props
       }
@@ -1042,6 +1060,14 @@ export default function teacherSections(state = initialState, action) {
     };
   }
 
+  // DCDO Flag - show/hide Lock Section field
+  if (action.type === SET_SHOW_LOCK_SECTION_FIELD) {
+    return {
+      ...state,
+      showLockSectionField: action.showLockSectionField
+    };
+  }
+
   return state;
 }
 
@@ -1137,7 +1163,7 @@ export const sectionFromServerSection = serverSection => ({
   loginType: serverSection.login_type,
   grade: serverSection.grade,
   providerManaged: serverSection.providerManaged || false, // TODO: (josh) make this required when /v2/sections API is deprecated
-  stageExtras: serverSection.lesson_extras,
+  lessonExtras: serverSection.lesson_extras,
   pairingAllowed: serverSection.pairing_allowed,
   ttsAutoplayEnabled: serverSection.tts_autoplay_enabled,
   sharingDisabled: serverSection.sharing_disabled,
@@ -1148,7 +1174,8 @@ export const sectionFromServerSection = serverSection => ({
     ? serverSection.script.id
     : serverSection.script_id || null,
   hidden: serverSection.hidden,
-  isAssigned: serverSection.isAssigned
+  isAssigned: serverSection.isAssigned,
+  restrictSection: serverSection.restrict_section
 });
 
 /**
@@ -1173,12 +1200,13 @@ export function serverSectionFromSection(section) {
   return {
     ...section,
     login_type: section.loginType,
-    lesson_extras: section.stageExtras,
+    lesson_extras: section.lessonExtras,
     pairing_allowed: section.pairingAllowed,
     tts_autoplay_enabled: section.ttsAutoplayEnabled,
     sharing_disabled: section.sharingDisabled,
     course_id: section.courseId,
-    script: section.scriptId ? {id: section.scriptId} : undefined
+    script: section.scriptId ? {id: section.scriptId} : undefined,
+    restrict_section: section.restrictSection
   };
 }
 
@@ -1224,8 +1252,8 @@ export const assignmentPaths = (validAssignments, section) => {
  * @param state
  * @param id
  */
-export const stageExtrasAvailable = (state, id) =>
-  state.teacherSections.stageExtrasScriptIds.indexOf(id) > -1;
+export const lessonExtrasAvailable = (state, id) =>
+  state.teacherSections.lessonExtrasScriptIds.indexOf(id) > -1;
 
 /**
  * Ask whether the user is currently adding a new section using

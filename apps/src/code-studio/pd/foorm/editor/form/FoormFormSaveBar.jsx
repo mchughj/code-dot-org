@@ -23,79 +23,6 @@ import {
   setLastSavedQuestions
 } from '../foormEditorRedux';
 
-const styles = {
-  saveButtonBackground: {
-    margin: 0,
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    backgroundColor: color.lightest_gray,
-    borderColor: color.lightest_gray,
-    height: 50,
-    width: '100%',
-    zIndex: 900,
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  button: {
-    margin: '10px'
-  },
-  spinner: {
-    fontSize: 25,
-    padding: 10
-  },
-  lastSaved: {
-    fontSize: 14,
-    color: color.level_perfect,
-    padding: 15
-  },
-  error: {
-    fontSize: 14,
-    color: color.red,
-    padding: 15
-  },
-  warning: {
-    color: color.red,
-    fontWeight: 'bold'
-  }
-};
-
-const publishedSaveWarning = (
-  <div>
-    <span style={styles.warning}>Warning: </span>You are editing a published
-    survey. Please only make safe edits as described in the{' '}
-    <a
-      href="https://github.com/code-dot-org/code-dot-org/wiki/%5BLevelbuilder%5d-Foorm-Editor:-Editing-a-Form#safe-edits-to-published-forms"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      How To
-    </a>
-    .
-    <br />
-    <br />
-    Are you sure you want to save your changes?
-  </div>
-);
-
-const aboutToPublishWarning = (
-  <div>
-    <span style={styles.warning}>Warning: </span>You are about to publish a new
-    survey. Once a survey is published, it may be put into active use.{' '}
-    <span style={styles.warning}>
-      A published survey cannot be returned to draft mode!
-    </span>
-    <br />
-    <br />
-    Are you sure you want to publish?
-  </div>
-);
-
-const confirmationDialogNames = {
-  save: 'save',
-  publish: 'publish'
-};
-
 // Save bar that stays at bottom of the screen of the Foorm Editor when editing forms.
 // Shows last saved time, any errors, and requires confirmation for published forms.
 class FoormFormSaveBar extends Component {
@@ -106,6 +33,7 @@ class FoormFormSaveBar extends Component {
     // Populated by Redux
     formQuestions: PropTypes.object,
     hasJSONError: PropTypes.bool,
+    hasLintError: PropTypes.bool,
     isFormPublished: PropTypes.bool,
     formId: PropTypes.number,
     lastSaved: PropTypes.number,
@@ -128,6 +56,8 @@ class FoormFormSaveBar extends Component {
       formCategory: null
     };
   }
+
+  hasCodeMirrorError = () => this.props.hasLintError || this.props.hasJSONError;
 
   updateQuestionsUrl = () =>
     `/foorm/forms/${this.props.formId}/update_questions`;
@@ -333,19 +263,19 @@ class FoormFormSaveBar extends Component {
         <div style={styles.saveButtonBackground} className="saveBar">
           {this.props.lastSaved &&
             !this.props.saveError &&
-            !this.props.hasJSONError && (
+            !this.hasCodeMirrorError() && (
               <div style={styles.lastSaved} className="lastSavedMessage">
                 {`Last saved at: ${new Date(
                   this.props.lastSaved
                 ).toLocaleString()}`}
               </div>
             )}
-          {this.props.hasJSONError && (
+          {this.hasCodeMirrorError() && (
             <div style={styles.error}>
               {`Please fix parsing error before saving. See the errors noted on the left side of the editor.`}
             </div>
           )}
-          {this.props.saveError && !this.props.hasJSONError && (
+          {this.props.saveError && !this.hasCodeMirrorError() && (
             <div
               style={styles.error}
               className="saveErrorMessage"
@@ -362,7 +292,7 @@ class FoormFormSaveBar extends Component {
               type="button"
               style={styles.button}
               onClick={this.handlePublish}
-              disabled={this.state.isSaving || this.props.hasJSONError}
+              disabled={this.state.isSaving || this.hasCodeMirrorError()}
             >
               Publish
             </button>
@@ -372,7 +302,7 @@ class FoormFormSaveBar extends Component {
             type="button"
             style={styles.button}
             onClick={this.handleSave}
-            disabled={this.state.isSaving || this.props.hasJSONError}
+            disabled={this.state.isSaving || this.hasCodeMirrorError()}
           >
             Save
           </button>
@@ -409,12 +339,86 @@ class FoormFormSaveBar extends Component {
   }
 }
 
+const styles = {
+  saveButtonBackground: {
+    margin: 0,
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    backgroundColor: color.lightest_gray,
+    borderColor: color.lightest_gray,
+    height: 50,
+    width: '100%',
+    zIndex: 900,
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  button: {
+    margin: '10px'
+  },
+  spinner: {
+    fontSize: 25,
+    padding: 10
+  },
+  lastSaved: {
+    fontSize: 14,
+    color: color.level_perfect,
+    padding: 15
+  },
+  error: {
+    fontSize: 14,
+    color: color.red,
+    padding: 15
+  },
+  warning: {
+    color: color.red,
+    fontWeight: 'bold'
+  }
+};
+
+const publishedSaveWarning = (
+  <div>
+    <span style={styles.warning}>Warning: </span>You are editing a published
+    survey. Please only make safe edits as described in the{' '}
+    <a
+      href="https://github.com/code-dot-org/code-dot-org/wiki/%5BLevelbuilder%5d-Foorm-Editor:-Editing-a-Form#safe-edits-to-published-forms"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      How To
+    </a>
+    .
+    <br />
+    <br />
+    Are you sure you want to save your changes?
+  </div>
+);
+
+const aboutToPublishWarning = (
+  <div>
+    <span style={styles.warning}>Warning: </span>You are about to publish a new
+    survey. Once a survey is published, it may be put into active use.{' '}
+    <span style={styles.warning}>
+      A published survey cannot be returned to draft mode!
+    </span>
+    <br />
+    <br />
+    Are you sure you want to publish?
+  </div>
+);
+
+const confirmationDialogNames = {
+  save: 'save',
+  publish: 'publish'
+};
+
 export const UnconnectedFoormFormSaveBar = FoormFormSaveBar;
 
 export default connect(
   state => ({
     formQuestions: state.foorm.questions || {},
     isFormPublished: state.foorm.isFormPublished,
+    hasLintError: state.foorm.hasLintError,
     hasJSONError: state.foorm.hasJSONError,
     formId: state.foorm.formId,
     lastSaved: state.foorm.lastSaved,

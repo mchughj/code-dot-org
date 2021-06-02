@@ -4,7 +4,7 @@ import color from '@cdo/apps/util/color';
 import ReactTooltip from 'react-tooltip';
 import ProgressBubbleSet from './ProgressBubbleSet';
 import FontAwesome from '@cdo/apps/templates/FontAwesome';
-import {levelType, lessonType} from './progressTypes';
+import {levelWithProgressType, lessonType} from './progressTypes';
 import {ViewType} from '@cdo/apps/code-studio/viewAsRedux';
 import FocusAreaIndicator from './FocusAreaIndicator';
 import _ from 'lodash';
@@ -82,7 +82,7 @@ class SummaryProgressRow extends React.Component {
   static propTypes = {
     dark: PropTypes.bool.isRequired,
     lesson: lessonType.isRequired,
-    levels: PropTypes.arrayOf(levelType).isRequired,
+    levels: PropTypes.arrayOf(levelWithProgressType).isRequired,
 
     // from redux
     viewAs: PropTypes.oneOf(Object.keys(ViewType)),
@@ -109,14 +109,15 @@ class SummaryProgressRow extends React.Component {
     const showAsLocked = isLockedForUser || isLockedForSection;
 
     let lessonTitle = lesson.name;
-    if (lesson.stageNumber) {
-      lessonTitle = lesson.stageNumber + '. ' + lessonTitle;
+    if (lesson.lessonNumber) {
+      lessonTitle = lesson.lessonNumber + '. ' + lessonTitle;
     }
 
     const titleTooltipId = _.uniqueId();
     const lockedTooltipId = _.uniqueId();
     return (
       <tr
+        className="uitest-summary-progress-row"
         style={{
           ...(!dark && styles.lightRow),
           ...(dark && styles.darkRow),

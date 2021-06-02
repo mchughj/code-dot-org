@@ -8,24 +8,6 @@ import {navigationLessonShape} from '@cdo/apps/templates/lessonOverview/lessonPl
 import {linkWithQueryParams, navigateToHref} from '@cdo/apps/utils';
 import firehoseClient from '@cdo/apps/lib/util/firehose';
 
-const styles = {
-  dropdown: {
-    display: 'inline-block'
-  },
-  boldText: {
-    fontFamily: '"Gotham 7r", sans-serif'
-  },
-  section: {
-    width: 300,
-    fontFamily: '"Gotham 4r", sans-serif',
-    backgroundColor: color.lightest_purple
-  },
-  lesson: {
-    width: 300,
-    fontFamily: '"Gotham 4r", sans-serif'
-  }
-};
-
 /*
  Component used to navigate between lesson plans. List
  is broken into sections based on Lesson Groups. Each section has its own item in the list.
@@ -52,7 +34,8 @@ export default class LessonNavigationDropdown extends Component {
     };
   }
 
-  handleDropdownClick = listItem => {
+  handleDropdownClick = (e, listItem) => {
+    e.preventDefault();
     if (listItem.link) {
       firehoseClient.putRecord(
         {
@@ -130,7 +113,8 @@ export default class LessonNavigationDropdown extends Component {
           {lessonsList.map((listItem, index) => (
             <a
               key={index}
-              onClick={this.handleDropdownClick.bind(this, listItem)}
+              onClick={e => this.handleDropdownClick(e, listItem)}
+              href={listItem.link && linkWithQueryParams(listItem.link)}
               className={listItem.link ? 'navigate' : 'no-navigation'} // Used to specify if the dropdown should collapse when clicked
               style={listItem.link ? styles.lesson : styles.section}
             >
@@ -154,3 +138,21 @@ export default class LessonNavigationDropdown extends Component {
     );
   }
 }
+
+const styles = {
+  dropdown: {
+    display: 'inline-block'
+  },
+  boldText: {
+    fontFamily: '"Gotham 7r", sans-serif'
+  },
+  section: {
+    width: 300,
+    fontFamily: '"Gotham 4r", sans-serif',
+    backgroundColor: color.lightest_purple
+  },
+  lesson: {
+    width: 300,
+    fontFamily: '"Gotham 4r", sans-serif'
+  }
+};

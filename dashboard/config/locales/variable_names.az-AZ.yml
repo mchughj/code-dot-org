@@ -6,6 +6,7 @@ az:
       actor: personaj
       age: yaş
       answer: cavab
+      binary: ikilik
       birds: quşlar
       bit: bit
       blue1: mavi1
@@ -26,6 +27,7 @@ az:
       repeat: təkrar et
       right: sağa
       score: xal
+      shout: bağırmaq
       sides: tərəflər
       size: ölçü
       speed: sürət

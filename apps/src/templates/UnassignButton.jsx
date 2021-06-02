@@ -5,15 +5,6 @@ import Button from './Button';
 import i18n from '@cdo/locale';
 import {unassignSection} from '@cdo/apps/templates/teacherDashboard/teacherSectionsRedux';
 
-const styles = {
-  buttonMargin: {
-    marginLeft: 10
-  },
-  buttonMarginRTL: {
-    marginRight: 10
-  }
-};
-
 class UnassignButton extends React.Component {
   static propTypes = {
     sectionId: PropTypes.number.isRequired,
@@ -67,6 +58,19 @@ class UnassignButton extends React.Component {
     );
   }
 }
+
+const styles = {
+  buttonMargin: {
+    marginLeft: 10,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  buttonMarginRTL: {
+    marginRight: 10,
+    display: 'flex',
+    alignItems: 'center'
+  }
+};
 
 export const UnconnectedUnassignButton = UnassignButton;
 

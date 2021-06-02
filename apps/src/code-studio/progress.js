@@ -12,16 +12,17 @@ import DisabledBubblesAlert from './DisabledBubblesAlert';
 import {getStore} from './redux';
 import {registerReducers} from '@cdo/apps/redux';
 import {setViewType, ViewType} from './viewAsRedux';
-import {getHiddenStages, initializeHiddenScripts} from './hiddenStageRedux';
+import {getHiddenLessons, initializeHiddenScripts} from './hiddenLessonRedux';
 import {TestResults} from '@cdo/apps/constants';
 import {
   initProgress,
   overwriteResults,
+  setScriptProgress,
   disablePostMilestone,
   setIsHocScript,
   setIsAge13Required,
   setStudentDefaultsSummaryView,
-  setStageExtrasEnabled,
+  setLessonExtrasEnabled,
   queryUserProgress as reduxQueryUserProgress,
   useDbProgress
 } from './progressRedux';
@@ -71,7 +72,7 @@ progress.showDisabledBubblesAlert = function() {
 /**
  * @param {object} scriptData (Note - This is only a subset of the information
  *   we have in renderCourseProgress)
- * @param {object} stageData
+ * @param {object} lessonData
  * @param {object} progressData
  * @param {string} currentLevelid The id of the level the user is currently on.
  *   This gets used in the url and as a key in many objects. Therefore, it is a
@@ -79,23 +80,23 @@ progress.showDisabledBubblesAlert = function() {
  * @param {boolean} saveAnswersBeforeNavigation
  * @param {boolean} signedIn True/false if we know the sign in state of the
  *   user, null otherwise
- * @param {boolean} stageExtrasEnabled Whether this user is in a section with
- *   stageExtras enabled for this script
+ * @param {boolean} lessonExtrasEnabled Whether this user is in a section with
+ *   lessonExtras enabled for this script
  * @param {boolean} isLessonExtras Boolean indicating we are not on a script
  *   level and therefore are on lesson extras
  * @param {number} currentPageNumber The page we are on if this is a multi-
  *   page level.
  * @returns {Promise<void>}
  */
-progress.generateStageProgress = function(
+progress.generateLessonProgress = function(
   scriptData,
   lessonGroupData,
-  stageData,
+  lessonData,
   progressData,
   currentLevelId,
   saveAnswersBeforeNavigation,
   signedIn,
-  stageExtrasEnabled,
+  lessonExtrasEnabled,
   isLessonExtras,
   currentPageNumber
 ) {
@@ -108,10 +109,10 @@ progress.generateStageProgress = function(
     {
       name,
       lessonGroups: lessonGroupData,
-      lessons: [stageData],
+      lessons: [lessonData],
       disablePostMilestone,
       age_13_required,
-      id: stageData.script_id
+      id: lessonData.script_id
     },
     currentLevelId,
     false,
@@ -122,8 +123,8 @@ progress.generateStageProgress = function(
 
   store.dispatch(setIsHocScript(isHocScript));
 
-  if (stageExtrasEnabled) {
-    store.dispatch(setStageExtrasEnabled(true));
+  if (lessonExtrasEnabled) {
+    store.dispatch(setLessonExtrasEnabled(true));
   }
 
   return populateProgress(store, signedIn, progressData, name);
@@ -144,6 +145,7 @@ function populateProgress(store, signedIn, progressData, scriptName) {
     if (data.usingDbProgress) {
       store.dispatch(useDbProgress());
       clientState.clearProgress();
+      store.dispatch(setScriptProgress(data.scriptProgress));
     }
 
     if (data.levelResults) {
@@ -182,7 +184,8 @@ function getLevelProgress(signedIn, progressData, scriptName) {
       // User is signed in, return a resolved promise with the given progress data
       return Promise.resolve({
         usingDbProgress: true,
-        levelResults: extractLevelResults(progressData)
+        levelResults: extractLevelResults(progressData),
+        scriptProgress: progressData.progress
       });
     case false:
       // User is not signed in, return a resolved promise with progress data
@@ -199,7 +202,8 @@ function getLevelProgress(signedIn, progressData, scriptName) {
           if (data.signedIn) {
             return {
               usingDbProgress: true,
-              levelResults: extractLevelResults(data)
+              levelResults: extractLevelResults(data),
+              scriptProgress: data.progress
             };
           } else {
             return {
@@ -388,7 +392,7 @@ function queryUserProgress(store, scriptData, currentLevelId) {
  *   This gets used in the url and as a key in many objects. Therefore, it is a
  *   string despite always being a numerical value
  * @param {boolean} isFullProgress - True if this contains progress for the entire
- *   script vs. a single stage.
+ *   script vs. a single lesson.
  * @param {boolean} [saveAnswersBeforeNavigation]
  * @param {boolean} [isLessonExtras] Optional boolean indicating we are not on
  *   a script level and therefore are on lesson extras
@@ -431,7 +435,7 @@ function initializeStoreWithProgress(
 
   if (scriptData.hideable_lessons) {
     // Note: This call is async
-    store.dispatch(getHiddenStages(scriptData.name, true));
+    store.dispatch(getHiddenLessons(scriptData.name, true));
   }
 
   store.dispatch(setIsAge13Required(scriptData.age_13_required));

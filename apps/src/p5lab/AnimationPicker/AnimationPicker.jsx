@@ -20,7 +20,7 @@ import {
   beginUpload,
   handleUploadComplete,
   handleUploadError
-} from './animationPickerModule';
+} from '../redux/animationPicker';
 import ScrollableList from '../AnimationTab/ScrollableList.jsx';
 import AnimationPickerListItem from './AnimationPickerListItem.jsx';
 

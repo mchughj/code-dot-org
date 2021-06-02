@@ -9,20 +9,11 @@ import {
   setSaveError,
   setLibraryQuestionData,
   setHasJSONError,
+  setHasLintError,
   setLastSavedQuestions,
   setLibraryData
 } from '../foormEditorRedux';
 import FoormLibrarySaveBar from './FoormLibrarySaveBar';
-
-const styles = {
-  surveyTitle: {
-    marginBottom: 0
-  },
-  loadError: {
-    fontWeight: 'bold',
-    padding: '1em'
-  }
-};
 
 const JSONErrorMessage =
   'There is a parsing error in the JSON being edited. Errors are noted on the left side of the editor.';
@@ -56,6 +47,7 @@ class FoormLibraryEditorManager extends React.Component {
     setSaveError: PropTypes.func,
     setLibraryQuestionData: PropTypes.func,
     setHasJSONError: PropTypes.func,
+    setHasLintError: PropTypes.func,
     setLastSavedQuestions: PropTypes.func,
     setLibraryData: PropTypes.func
   };
@@ -193,6 +185,7 @@ class FoormLibraryEditorManager extends React.Component {
   updateLibraryQuestionData(libraryQuestionData) {
     this.props.setLibraryQuestionData(libraryQuestionData);
     this.props.setHasJSONError(false);
+    this.props.setHasLintError(false);
     this.props.setLastSavedQuestions(libraryQuestionData['question']);
     this.props.resetCodeMirror(libraryQuestionData['question']);
   }
@@ -295,6 +288,16 @@ class FoormLibraryEditorManager extends React.Component {
   }
 }
 
+const styles = {
+  surveyTitle: {
+    marginBottom: 0
+  },
+  loadError: {
+    fontWeight: 'bold',
+    padding: '1em'
+  }
+};
+
 export const UnconnectedFoormLibraryEditorManager = FoormLibraryEditorManager;
 
 export default connect(
@@ -316,6 +319,7 @@ export default connect(
     setLibraryQuestionData: libraryQuestionData =>
       dispatch(setLibraryQuestionData(libraryQuestionData)),
     setHasJSONError: hasJSONError => dispatch(setHasJSONError(hasJSONError)),
+    setHasLintError: hasLintError => dispatch(setHasLintError(hasLintError)),
     setLastSavedQuestions: libraryQuestion =>
       dispatch(setLastSavedQuestions(libraryQuestion)),
     setLibraryData: libraryData => dispatch(setLibraryData(libraryData))

@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  BubbleSize,
+  bubbleContainerWidths
+} from '@cdo/apps/templates/progress/BubbleFactory';
 import * as progressStyles from '@cdo/apps/templates/progress/progressStyles';
 
 const styles = {
-  container: {
-    ...progressStyles.flex,
-    ...progressStyles.cellContent
-  },
   node: {
     ...progressStyles.inlineBlock,
-    minWidth:
-      progressStyles.bubbleContainerWidths[progressStyles.BubbleSize.full],
+    minWidth: bubbleContainerWidths[BubbleSize.full],
     textAlign: 'center'
   }
 };
@@ -25,9 +24,7 @@ function SublevelSpacer({sublevelCount}) {
   return (
     <span
       style={{
-        width:
-          sublevelCount *
-          progressStyles.bubbleContainerWidths[progressStyles.BubbleSize.letter]
+        width: sublevelCount * bubbleContainerWidths[BubbleSize.letter]
       }}
     />
   );
@@ -42,12 +39,12 @@ SublevelSpacer.propTypes = {
  * for getting a node to properly align with levels that contain sublevels,
  * since in that case we want the node to align with the parent level and leave
  * space for the sublevels. Example uses include laying out level icons in
- * `ProgressTableLevelIconSet`, and laying out text in `ProgressTableContainer`
+ * `ProgressTableLevelIconSet`, and laying out text in `ProgressTableView`
  * expansion rows.
  */
 export default function ProgressTableLevelSpacer({items}) {
   return (
-    <span style={styles.container}>
+    <span className="cell-content" style={progressStyles.flex}>
       {items.map((item, i) => (
         <span key={`spacer-${i}`} style={progressStyles.flexBetween}>
           <span style={{...styles.node, ...item.nodeStyle}}>{item.node}</span>

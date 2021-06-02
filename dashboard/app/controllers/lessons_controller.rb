@@ -129,6 +129,15 @@ class LessonsController < ApplicationController
     render(status: :not_acceptable, plain: e.message)
   end
 
+  def clone
+    destination_script = Script.find_by_name(params[:destinationUnitName])
+    raise "Cannot find script #{params[:destinationUnitName]}" unless destination_script
+    copied_lesson = @lesson.copy_to_script(destination_script)
+    render(status: 200, json: {editLessonUrl: edit_lesson_path(id: copied_lesson.id), editScriptUrl: edit_script_path(copied_lesson.script)})
+  rescue => err
+    render(json: {error: err.message}.to_json, status: :not_acceptable)
+  end
+
   private
 
   def lesson_params

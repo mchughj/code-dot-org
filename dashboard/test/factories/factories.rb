@@ -52,6 +52,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :pilot do
+    sequence(:name) {|n| "test-pilot-#{n}"}
+    sequence(:display_name) {|n| "Test Pilot #{n}"}
+    allow_joining_via_url 0
+  end
+
   factory :section_hidden_lesson do
     section
     lesson
@@ -636,6 +642,10 @@ FactoryGirl.define do
     game {Game.curriculum_reference}
   end
 
+  factory :javalab, parent: :level, class: Javalab do
+    game {Game.javalab}
+  end
+
   factory :block do
     transient do
       sequence(:index)
@@ -724,9 +734,9 @@ FactoryGirl.define do
 
   factory :user_ml_model do
     user
-    model_id "1234AIBot"
-    metadata "Model details"
-    name "Model name"
+    model_id {Random.rand(111..999)}
+    name {"Model name #{Random.rand(111..999)}"}
+    metadata '{ "description": "Model details" }'
   end
 
   factory :script_level do

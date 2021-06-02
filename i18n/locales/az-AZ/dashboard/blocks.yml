@@ -1,3 +1,4 @@
+---
 az:
   data:
     blocks:
@@ -189,7 +190,6 @@ az:
         options:
           EFFECT:
             '"none"': Heç biri
-            "? \"['circles','color_cycle', 'diamonds', 'disco_ball', 'fireworks', 'swirl', 'kaleidoscope', 'lasers', 'splatter', 'rainbow', 'snowflakes', 'text', 'galaxy', 'sparkles', 'spiral', 'disco', 'stars'][randomInt(0,16)]\"": "(İxtiyari)"
             '"circles"': Çevrələr
             '"color_cycle"': Rənglər
             '"diamonds"': Almazlar
@@ -230,7 +230,6 @@ az:
         options:
           EFFECT:
             '"none"': Heç biri
-            "? \"['bubbles', 'confetti', 'hearts_red', 'music_notes', 'pineapples', 'pizzas', 'smiling_poop', 'rain', 'floating_rainbows', 'smile_face', 'spotlight', 'color_lights', 'raining_tacos'][randomInt(0,12)]\"": "(İxtiyari)"
       Dancelab_setForegroundEffectExtended:
         options:
           EFFECT:
@@ -365,6 +364,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
             '"speed"': sürət
       gamelab_checkTouching:
         options:
@@ -375,6 +376,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
             '"speed"': sürət
       gamelab_getThisSprite:
         options:
@@ -477,7 +480,13 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
             '"speed"': sürət
+      gamelab_setProp_dropdown:
+        options:
+          PROPERTY:
+            '"scale"': ölçü
       gamelab_setSizes:
         options:
           PROPERTY:
@@ -521,6 +530,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_createNewSprite:
         options:
           LOCATION:
@@ -536,6 +547,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_groupChangeAnim:
         options:
           SELECT:
@@ -546,6 +559,8 @@ az:
             '"all"': bütün
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_groupCreateNewSprite:
         options:
           LOCATION:
@@ -565,6 +580,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_groupRemoveAllBehaviors:
         options:
           SELECT:
@@ -583,6 +600,8 @@ az:
             '"all"': bütün
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_groupSetTint:
         options:
           SELECT:
@@ -604,6 +623,8 @@ az:
         options:
           PROPERTY:
             '"scale"': ölçü
+            '"x"': x mövqeyi
+            '"y"': y mövqeyi
       Mikelab_showScoreboard:
         options:
           CORNER:
@@ -655,22 +676,25 @@ az:
         text: sola dön
       RyanLab_turnRight:
         text: sağa dön
-      aalab_goToScene:
+      aalab_layoutSprites:
         options:
-          SCENE:
-            '1': '1'
-            '2': '2'
-            '3': '3'
-      aalab_scene:
-        options:
-          SCENE:
-            '1': '1'
-            '2': '2'
-            '3': '3'
-      aalab_starwars_playSound:
-        options:
-          OPTION:
+          FORMAT:
+            '"border"': kənar
             '"random"': təsadüfi
+      aalab_someGraduallyStartIntervention:
+        options:
+          PORTION:
+            '1': bütün
+            '0.75': most
+            '0.5': half of
+            '0.25': few
+      aalab_someStartIntervention:
+        options:
+          PORTION:
+            '1': bütün
+            '0.75': most
+            '0.5': half of
+            '0.25': few
       binary_move:
         options:
           DIR:

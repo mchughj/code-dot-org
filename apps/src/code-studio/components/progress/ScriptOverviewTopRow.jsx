@@ -27,36 +27,6 @@ const NEXT_BUTTON_TEXT = {
   [COMPLETED]: i18n.printCertificate()
 };
 
-const styles = {
-  buttonRow: {
-    // ensure we have height when we only have our toggle (which is floated)
-    minHeight: 50,
-    position: 'relative'
-  },
-  right: {
-    position: 'absolute',
-    right: 0,
-    top: 0
-  },
-  left: {
-    position: 'absolute',
-    left: 0,
-    top: 0
-  },
-  dropdown: {
-    display: 'inline-block'
-  },
-  resourcesRow: {
-    display: 'flex'
-  },
-  buttonMarginLTR: {
-    marginLeft: 5
-  },
-  buttonMarginRTL: {
-    marginRight: 5
-  }
-};
-
 class ScriptOverviewTopRow extends React.Component {
   static propTypes = {
     sectionsForDropdown: PropTypes.arrayOf(sectionForDropdownShape).isRequired,
@@ -157,7 +127,7 @@ class ScriptOverviewTopRow extends React.Component {
     return (
       <div style={styles.buttonRow} className="script-overview-top-row">
         {!professionalLearningCourse && viewAs === ViewType.Student && (
-          <div>
+          <div style={styles.buttonsInRow}>
             <Button
               __useDeprecatedTag
               href={`/s/${scriptName}/next`}
@@ -207,8 +177,8 @@ class ScriptOverviewTopRow extends React.Component {
                   <a
                     key={option.key}
                     href={option.url}
-                    onClick={() =>
-                      this.recordAndNavigateToPdf(option.key, option.url)
+                    onClick={e =>
+                      this.recordAndNavigateToPdf(e, option.key, option.url)
                     }
                   >
                     {option.name}
@@ -245,6 +215,42 @@ class ScriptOverviewTopRow extends React.Component {
     );
   }
 }
+
+const styles = {
+  buttonRow: {
+    // ensure we have height when we only have our toggle (which is floated)
+    minHeight: 50,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  buttonsInRow: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  right: {
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
+  left: {
+    position: 'absolute',
+    left: 0,
+    top: 0
+  },
+  dropdown: {
+    display: 'inline-block'
+  },
+  resourcesRow: {
+    display: 'flex'
+  },
+  buttonMarginLTR: {
+    marginLeft: 5
+  },
+  buttonMarginRTL: {
+    marginRight: 5
+  }
+};
 
 export const UnconnectedScriptOverviewTopRow = ScriptOverviewTopRow;
 

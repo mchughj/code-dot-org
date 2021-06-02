@@ -56,7 +56,7 @@ export function createStore(numStudents, numLessons) {
     id: 11,
     script: scriptData,
     students: [],
-    stageExtras: false
+    lessonExtras: false
   };
   for (let i = 0; i < numStudents; i++) {
     section.students.push({id: i, name: 'Student' + i + ' Long Lastname'});
@@ -88,8 +88,8 @@ function buildSectionProgress(students, scriptData) {
     lastUpdates[scriptData.id][student.id] = Date.now();
     progress[student.id] = {};
   });
-  scriptData.stages.forEach(stage => {
-    stage.levels.forEach(level => {
+  scriptData.stages.forEach(lesson => {
+    lesson.levels.forEach(level => {
       students.forEach(student => {
         progress[student.id][level.id] = randomProgress();
         level.sublevels &&
@@ -117,6 +117,7 @@ function randomProgress() {
     case 0:
       return {
         status: LevelStatus.perfect,
+        locked: false,
         result: TestResults.MINIMUM_OPTIMAL_RESULT,
         paired: paired,
         timeSpent: timeSpent,
@@ -125,6 +126,7 @@ function randomProgress() {
     case 1:
       return {
         status: LevelStatus.attempted,
+        locked: false,
         result: TestResults.LEVEL_STARTED,
         paired: paired,
         timeSpent: timeSpent,
@@ -133,6 +135,7 @@ function randomProgress() {
     case 2:
       return {
         status: LevelStatus.passed,
+        locked: false,
         result: TestResults.TOO_MANY_BLOCKS_FAIL,
         paired: paired,
         timeSpent: undefined,

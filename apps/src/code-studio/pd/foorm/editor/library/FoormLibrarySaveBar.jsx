@@ -25,43 +25,6 @@ import {
   setLastSavedQuestions
 } from '../foormEditorRedux';
 
-const styles = {
-  saveButtonBackground: {
-    margin: 0,
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    backgroundColor: color.lightest_gray,
-    borderColor: color.lightest_gray,
-    height: 50,
-    width: '100%',
-    zIndex: 900,
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  button: {
-    margin: '10px'
-  },
-  spinner: {
-    fontSize: 25,
-    padding: 10
-  },
-  lastSaved: {
-    fontSize: 14,
-    color: color.level_perfect,
-    padding: 15
-  },
-  error: {
-    fontSize: 14,
-    color: color.red,
-    padding: 15
-  },
-  warning: {
-    color: color.red,
-    fontWeight: 'bold'
-  }
-};
-
 const saveConfirmationDialogName = 'save';
 
 /*
@@ -78,6 +41,7 @@ class FoormLibrarySaveBar extends Component {
     libraryId: PropTypes.number,
     libraryQuestionId: PropTypes.number,
     questions: PropTypes.object,
+    hasLintError: PropTypes.bool,
     hasJSONError: PropTypes.bool,
     lastSaved: PropTypes.number,
     saveError: PropTypes.string,
@@ -99,6 +63,8 @@ class FoormLibrarySaveBar extends Component {
     formsAppearedIn: [],
     libraryCategory: null
   };
+
+  hasCodeMirrorError = () => this.props.hasLintError || this.props.hasJSONError;
 
   updateQuestionUrl = () =>
     `/foorm/library_questions/${this.props.libraryQuestionId}`;
@@ -406,19 +372,19 @@ class FoormLibrarySaveBar extends Component {
         <div style={styles.saveButtonBackground} className="saveBar">
           {this.props.lastSaved &&
             !this.props.saveError &&
-            !this.props.hasJSONError && (
+            !this.hasCodeMirrorError() && (
               <div style={styles.lastSaved} className="lastSavedMessage">
                 {`Last saved at: ${new Date(
                   this.props.lastSaved
                 ).toLocaleString()}`}
               </div>
             )}
-          {this.props.hasJSONError && (
+          {this.hasCodeMirrorError() && (
             <div style={styles.error}>
               {`Please fix parsing error before saving. See the errors noted on the left side of the editor.`}
             </div>
           )}
-          {this.props.saveError && !this.props.hasJSONError && (
+          {this.props.saveError && !this.hasCodeMirrorError() && (
             <div
               style={styles.error}
               className="saveErrorMessage"
@@ -434,7 +400,7 @@ class FoormLibrarySaveBar extends Component {
             type="button"
             style={styles.button}
             onClick={this.handleSave}
-            disabled={this.state.isSaving || this.props.hasJSONError}
+            disabled={this.state.isSaving || this.hasCodeMirrorError()}
           >
             Save
           </button>
@@ -458,11 +424,49 @@ class FoormLibrarySaveBar extends Component {
   }
 }
 
+const styles = {
+  saveButtonBackground: {
+    margin: 0,
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    backgroundColor: color.lightest_gray,
+    borderColor: color.lightest_gray,
+    height: 50,
+    width: '100%',
+    zIndex: 900,
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  button: {
+    margin: '10px'
+  },
+  spinner: {
+    fontSize: 25,
+    padding: 10
+  },
+  lastSaved: {
+    fontSize: 14,
+    color: color.level_perfect,
+    padding: 15
+  },
+  error: {
+    fontSize: 14,
+    color: color.red,
+    padding: 15
+  },
+  warning: {
+    color: color.red,
+    fontWeight: 'bold'
+  }
+};
+
 export const UnconnectedFoormLibrarySaveBar = FoormLibrarySaveBar;
 
 export default connect(
   state => ({
     questions: state.foorm.questions || {},
+    hasLintError: state.foorm.hasLintError,
     hasJSONError: state.foorm.hasJSONError,
     libraryId: state.foorm.libraryId,
     libraryQuestionId: state.foorm.libraryQuestionId,

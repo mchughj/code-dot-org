@@ -1622,9 +1622,10 @@
   version "0.1.0-cdo.0"
   resolved "https://registry.yarnpkg.com/@code-dot-org/js-numbers/-/js-numbers-0.1.0-cdo.0.tgz#810092a993c3c75441f2e5a3282f1257d9670715"
 
-"@code-dot-org/maze@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@code-dot-org/maze/-/maze-1.1.0.tgz#7c8185adf06a9172e3bde4ccd6f6738a787b2a7c"
+"@code-dot-org/maze@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@code-dot-org/maze/-/maze-2.4.0.tgz#59371335c2823d1c6e982cd61d13b05f9ada5922"
+  integrity sha512-kfTUvFpgvFbWSBOXi/C1JasBVNOAmofbRgAMz0nKXweow8jUUvZ7OU6mB6V0bCWaMFEk+vOrE1rcpRhCdRfJmw==
 
 "@code-dot-org/ml-activities@0.0.26":
   version "0.0.26"
@@ -1637,13 +1638,12 @@
     messageformat "^1.1.0"
     react-typist "^2.0.5"
 
-"@code-dot-org/ml-playground@0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@code-dot-org/ml-playground/-/ml-playground-0.0.26.tgz#4a30d982cfad3a361759fcfb19798d935cad83f4"
-  integrity sha512-7gKQ3q/z8QnN4wE9ILHSp/mt+zLBy2yYa+JDdTx7ROnb99WvJ9YtzImrb8Z+tDYgsY42D9OasCWeANmF9375zA==
+"@code-dot-org/ml-playground@0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@code-dot-org/ml-playground/-/ml-playground-0.0.31.tgz#5d3830fa0993b764c7e1c281ca986bbdf9df9830"
+  integrity sha512-aJaKgV2ZGVE6EnH0e0aMfYSaVOU/x42xPuUr3q4AZ8/OtsBGF8eY8aifo7hYZ+eKnEosw96c9YqUzqPe0dhNQw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.25"
-    "@fortawesome/free-regular-svg-icons" "^5.11.2"
     "@fortawesome/free-solid-svg-icons" "^5.11.2"
     "@fortawesome/react-fontawesome" "^0.1.7"
     chart.js "^2.9.4"
@@ -1947,24 +1947,12 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.25.tgz#6df015905081f2762e5cfddeb7a20d2e9b16c786"
   integrity sha512-3RuZPDuuPELd7RXtUqTCfed14fcny9UiPOkdr2i+cYxBoTOfQgxcDoq77fHiiHcgWuo1LoBUpvGxFF1H/y7s3Q==
 
-"@fortawesome/fontawesome-common-types@^0.2.34":
-  version "0.2.34"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.34.tgz#0a8c348bb23b7b760030f5b1d912e582be4ec915"
-  integrity sha512-XcIn3iYbTEzGIxD0/dY5+4f019jIcEIWBiHc3KrmK/ROahwxmZ/s+tdj97p/5K0klz4zZUiMfUlYP0ajhSJjmA==
-
 "@fortawesome/fontawesome-svg-core@^1.2.25":
   version "1.2.25"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.25.tgz#24b03391d14f0c6171e8cad7057c687b74049790"
   integrity sha512-MotKnn53JKqbkLQiwcZSBJVYtTgIKFbh7B8+kd05TSnfKYPFmjKKI59o2fpz5t0Hzl35vVGU6+N4twoOpZUrqA==
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.25"
-
-"@fortawesome/free-regular-svg-icons@^5.11.2":
-  version "5.15.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-5.15.2.tgz#61eeb8c206e792c530eaa58279cc32c55332fe8f"
-  integrity sha512-Uv5NQCYjyisNVTu/1Xjs+z8vwQjbfT6hiqYvQNfF0n8qdgfWLM581bAfVMQ3BCs1SPy+eEUKNcGkK4n0FihFHg==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.34"
 
 "@fortawesome/free-solid-svg-icons@^5.11.2":
   version "5.11.2"
@@ -3755,10 +3743,10 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-blockly@4.20201217.0:
-  version "4.20201217.0"
-  resolved "https://registry.yarnpkg.com/blockly/-/blockly-4.20201217.0.tgz#2031f42ff84d34a0fb35b1e69b0064466a1e0346"
-  integrity sha512-kQjP0TydnMIkH8pbJ0qpC1bhqATijCwFMi1UFP3SjULWTR44JpHC4g8c2K+ATUexg9p5/nioslQDNL8dBi3nvw==
+blockly@5.20210325.1:
+  version "5.20210325.1"
+  resolved "https://registry.yarnpkg.com/blockly/-/blockly-5.20210325.1.tgz#c0a73174318dc61f4de116548ace2b2970dd4a58"
+  integrity sha512-qrilYPovJeDfxKDWm1YBUCPVNElh/iyC1szaHTIPZHj9C9YPpSzZOeFyyrPBbYRudzbo8kjBOWMtHnN1bLjkoQ==
   dependencies:
     jsdom "15.2.1"
 
@@ -6381,6 +6369,9 @@ eslint-config-prettier@^3.6.0:
 eslint-plugin-babel@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-4.1.2.tgz#79202a0e35757dd92780919b2336f1fa2fe53c1e"
+
+"eslint-plugin-cdo-custom-rules@file:./eslint":
+  version "1.0.0"
 
 eslint-plugin-mocha@^4.12.1:
   version "4.12.1"

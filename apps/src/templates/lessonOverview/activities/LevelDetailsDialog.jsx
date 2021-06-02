@@ -25,17 +25,6 @@ const VIDEO_MODAL_WIDTH = 720;
 const HEADER_HEIGHT = styleConstants['workspace-headers-height'];
 const MAX_LEVEL_HEIGHT = 550;
 
-const styles = {
-  sublevelCards: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  scrollContainer: {
-    maxHeight: '60vh',
-    overflow: 'auto'
-  }
-};
-
 class LevelDetailsDialog extends Component {
   static propTypes = {
     scriptLevel: PropTypes.object.isRequired,
@@ -111,7 +100,9 @@ class LevelDetailsDialog extends Component {
     } else if (level.type === 'Match' || level.type === 'Multi') {
       return (
         <div style={styles.scrollContainer}>
-          {level.question && <SafeMarkdown markdown={level.question} />}
+          {level.content.map((content, i) => (
+            <SafeMarkdown key={i} markdown={content} />
+          ))}
           {level.questionText && <SafeMarkdown markdown={level.questionText} />}
           {this.getTeacherOnlyMarkdownComponent(level)}
         </div>
@@ -159,7 +150,7 @@ class LevelDetailsDialog extends Component {
           isCollapsed={false}
           hidden={false}
           isEmbedView={false}
-          mainStyle={{paddingBottom: 5}}
+          mainStyle={{paddingBottom: 5, position: 'static'}}
           containerStyle={{
             overflowY: 'auto',
             height: this.state.height - HEADER_HEIGHT
@@ -207,7 +198,8 @@ class LevelDetailsDialog extends Component {
     }
   }
 
-  recordSeeFullLevelClick = (level, scriptLevel) => {
+  recordSeeFullLevelClick = (e, url, scriptLevel) => {
+    e.preventDefault();
     firehoseClient.putRecord(
       {
         study: 'lesson-plan',
@@ -220,7 +212,7 @@ class LevelDetailsDialog extends Component {
       {
         includeUserId: true,
         callback: () => {
-          windowOpen(level.url || scriptLevel.url, 'noopener', 'noreferrer');
+          windowOpen(url, 'noopener', 'noreferrer');
         }
       }
     );
@@ -287,6 +279,8 @@ class LevelDetailsDialog extends Component {
     const levelSpecificStyling = hasVideo
       ? {width: VIDEO_MODAL_WIDTH, marginLeft: -VIDEO_MODAL_WIDTH / 2}
       : {};
+    const baseUrl = level.url || scriptLevel.url;
+    const url = `${baseUrl}?no_redirect=1`;
     return (
       <BaseDialog
         isOpen={true}
@@ -305,11 +299,12 @@ class LevelDetailsDialog extends Component {
             style={{margin: 5}}
           />
           <Button
-            onClick={() => {
-              this.recordSeeFullLevelClick(level, scriptLevel);
+            onClick={e => {
+              this.recordSeeFullLevelClick(e, url, scriptLevel);
             }}
             text={i18n.seeFullLevel()}
             color={'orange'}
+            href={url}
             __useDeprecatedTag
             style={{margin: 5}}
           />
@@ -318,6 +313,17 @@ class LevelDetailsDialog extends Component {
     );
   }
 }
+
+const styles = {
+  sublevelCards: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  scrollContainer: {
+    maxHeight: '60vh',
+    overflow: 'auto'
+  }
+};
 
 export const UnconnectedLevelDetailsDialog = LevelDetailsDialog;
 

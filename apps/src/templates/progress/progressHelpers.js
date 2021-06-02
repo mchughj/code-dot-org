@@ -1,9 +1,8 @@
-import {fullyLockedStageMapping} from '@cdo/apps/code-studio/stageLockRedux';
+import {fullyLockedLessonMapping} from '@cdo/apps/code-studio/lessonLockRedux';
 import {ViewType} from '@cdo/apps/code-studio/viewAsRedux';
-import {isStageHiddenForSection} from '@cdo/apps/code-studio/hiddenStageRedux';
+import {isLessonHiddenForSection} from '@cdo/apps/code-studio/hiddenLessonRedux';
 import {LevelStatus, LevelKind} from '@cdo/apps/util/sharedConstants';
 import {PUZZLE_PAGE_NONE} from './progressTypes';
-import {TestResults} from '@cdo/apps/constants';
 import {
   activityCssClass,
   resultFromStatus
@@ -25,10 +24,10 @@ export function lessonIsVisible(lesson, state, viewAs) {
     throw new Error('missing param viewAs in lessonIsVisible');
   }
 
-  const hiddenStageState = state.hiddenStage;
+  const hiddenStageState = state.hiddenLesson;
   const sectionId = state.teacherSections.selectedSectionId;
 
-  const isHidden = isStageHiddenForSection(
+  const isHidden = isLessonHiddenForSection(
     hiddenStageState,
     sectionId,
     lesson.id
@@ -56,7 +55,7 @@ export function lessonIsLockedForUser(lesson, levels, state, viewAs) {
     // Signed out user
     return true;
   } else if (viewAs === ViewType.Teacher) {
-    return !state.stageLock.lockableAuthorized;
+    return !state.lessonLock.lockableAuthorized;
   } else if (viewAs === ViewType.Student) {
     return stageLocked(levels);
   }
@@ -67,32 +66,32 @@ export function lessonIsLockedForUser(lesson, levels, state, viewAs) {
  * Check to see if a lesson is locked for all students in the current section
  * or not. If called as a student, this should always return false since they
  * don't have a selected section.
- * @param {number} lessonId - Id representing the stage/lesson we're curious about
+ * @param {number} lessonId - Id representing the lesson we're curious about
  * @param {object} state - State of our entire redux store
  * @returns {boolean} True if the given lesson is locked for all students in the
  *   currently selected section.
  */
 export function lessonIsLockedForAllStudents(lessonId, state) {
   const currentSectionId = state.teacherSections.selectedSectionId;
-  const currentSection = state.stageLock.stagesBySectionId[currentSectionId];
-  const fullyLockedStages = fullyLockedStageMapping(currentSection);
+  const currentSection = state.lessonLock.lessonsBySectionId[currentSectionId];
+  const fullyLockedStages = fullyLockedLessonMapping(currentSection);
   return !!fullyLockedStages[lessonId];
 }
 
 /**
- * @param {level[]} levels - A set of levels for a given stage
- * @returns {boolean} True if we should consider the stage to be locked for the
+ * @param {level[]} levels - A set of levels for a given lesson
+ * @returns {boolean} True if we should consider the lesson to be locked for the
  *   current user.
  */
 export function stageLocked(levels) {
-  // For lockable stages, there is a requirement that they have exactly one LevelGroup,
-  // and that it be the last level in the stage. Because LevelGroup's can have
+  // For lockable lessons, there is a requirement that they have exactly one LevelGroup,
+  // and that it be the last level in the lesson. Because LevelGroup's can have
   // multiple "pages", and single LevelGroup might appear as multiple levels/bubbles
   // on the client. However, it is the case that each page in the LG should have
   // an identical locked/unlocked state.
   // Given this, we should be able to look at the last level in our collection
-  // to determine whether the LG (and thus the stage) should be considered locked.
-  return !!levels[levels.length - 1].locked;
+  // to determine whether the LG (and thus the lesson) should be considered locked.
+  return !!levels[levels.length - 1].isLocked;
 }
 
 /**
@@ -106,6 +105,10 @@ export function getIconForLevel(level, inProgressView = false) {
 
   if (level.isUnplugged) {
     return 'scissors';
+  }
+
+  if (level.isLocked) {
+    return 'lock';
   }
 
   if (level.icon) {
@@ -143,6 +146,15 @@ export function lessonIsAllAssessment(levels) {
 }
 
 /**
+ * Checks if there are any levels in a lesson.
+ * @param {object} lesson the lesson to check
+ * @returns {bool} If the lesson has any levels
+ */
+export function lessonHasLevels(lesson) {
+  return !!lesson.levels?.length;
+}
+
+/**
  * Computes summary of a student's progress in a lesson's levels.
  * @param {{id: studentLevelProgressType}} studentLevelProgress
  * An object keyed by level id containing objects representing the student's
@@ -162,8 +174,7 @@ function lessonProgressForStudent(studentLevelProgress, lessonLevels) {
     LevelStatus.perfect,
     LevelStatus.submitted,
     LevelStatus.free_play_complete,
-    LevelStatus.completed_assessment,
-    LevelStatus.readonly
+    LevelStatus.completed_assessment
   ];
 
   let attempted = 0;
@@ -263,17 +274,28 @@ export const processedLevel = level => {
 };
 
 export const getLevelResult = serverProgress => {
-  if (serverProgress.status === LevelStatus.locked) {
-    return TestResults.LOCKED_RESULT;
-  }
-  if (serverProgress.readonly_answers) {
-    return TestResults.READONLY_SUBMISSION_RESULT;
-  }
-  if (serverProgress.submitted) {
-    return TestResults.SUBMITTED_RESULT;
-  }
-
   return serverProgress.result || resultFromStatus(serverProgress.status);
+};
+
+/**
+ * `studentLevelProgressType.pages` is used by multi-page assessments,
+ * and its presence (or absence) is how we distinguish those from single-page
+ * assessments. `pages_completed` is an optional array of individual results
+ * for each page (or null). Since we only have the results for the pages, we
+ * need to create a `studentLevelProgressType` object from the results then
+ * set the `locked` value from the parent progress.
+ */
+const getPagesProgress = serverProgress => {
+  if (serverProgress.pages_completed?.length > 1) {
+    return serverProgress.pages_completed.map(pageResult => {
+      const pageProgress =
+        (pageResult && levelProgressFromResult(pageResult)) ||
+        levelProgressFromStatus(LevelStatus.not_tried);
+      pageProgress.locked = serverProgress.locked || false;
+      return pageProgress;
+    });
+  }
+  return null;
 };
 
 /**
@@ -287,20 +309,11 @@ export const levelProgressFromServer = serverProgress => {
   return {
     status: serverProgress.status || LevelStatus.not_tried,
     result: getLevelResult(serverProgress),
+    locked: serverProgress.locked || false,
     paired: serverProgress.paired || false,
     timeSpent: serverProgress.time_spent,
     lastTimestamp: serverProgress.last_progress_at,
-    // `pages` is used by multi-page assessments, and its presence
-    // (or absence) is how we distinguish those from single-page assessments
-    pages:
-      serverProgress.pages_completed &&
-      serverProgress.pages_completed.length > 1
-        ? serverProgress.pages_completed.map(
-            pageResult =>
-              (pageResult && levelProgressFromResult(pageResult)) ||
-              levelProgressFromStatus(LevelStatus.not_tried)
-          )
-        : null
+    pages: getPagesProgress(serverProgress)
   };
 };
 

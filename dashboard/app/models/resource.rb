@@ -47,6 +47,7 @@ class Resource < ApplicationRecord
     audience
     download_url
     include_in_pdf
+    is_rollup
   )
 
   def generate_key
@@ -69,6 +70,14 @@ class Resource < ApplicationRecord
     # were to serialize resources outside of .script_json, we'd need to include
     # a key respresenting the course version here.
     {'resource.key': key}.stringify_keys
+  end
+
+  def should_include_in_pdf?
+    # Resources should be excluded from PDF rollups if they are either not
+    # explicitly flagged with the `include_in_pdf` property OR if they are
+    # intended to only be shown to verified teachers.
+    return false if audience == 'Verified Teacher'
+    return !!include_in_pdf
   end
 
   def summarize_for_lesson_plan
@@ -94,7 +103,8 @@ class Resource < ApplicationRecord
       audience: audience || '',
       type: type || '',
       assessment: assessment || false,
-      includeInPdf: include_in_pdf || false
+      includeInPdf: include_in_pdf || false,
+      isRollup: !!is_rollup
     }
   end
 
@@ -102,6 +112,7 @@ class Resource < ApplicationRecord
     {
       id: id,
       key: key,
+      markdownKey: Services::MarkdownPreprocessor.build_resource_key(self),
       name: name,
       url: url
     }

@@ -55,7 +55,7 @@ class BubbleChoice < DSLDefined
   end
 
   # Returns a sublevel's position in the parent level. Can be used for generating
-  # a sublevel URL (/s/:script_name/lessons/:stage_pos/levels/:puzzle_pos/sublevel/:sublevel_pos).
+  # a sublevel URL (/s/:script_name/lessons/:lesson_pos/levels/:puzzle_pos/sublevel/:sublevel_pos).
   # @param [Level] sublevel
   # @return [Integer] The sublevel's position (i.e., its index + 1) under the parent level.
   def sublevel_position(sublevel)
@@ -170,11 +170,11 @@ class BubbleChoice < DSLDefined
     summary
   end
 
-  # Returns the sublevel id for a user that has the highest best_result.
+  # Returns the sublevel for a user that has the highest best_result.
   # @param [User]
   # @return [Integer]
-  def best_result_sublevel(user)
-    ul = user.user_levels.where(level: sublevels).max_by(&:best_result)
+  def best_result_sublevel(user, script)
+    ul = user.user_levels.where(level: sublevels, script: script).max_by(&:best_result)
     ul&.level
   end
 

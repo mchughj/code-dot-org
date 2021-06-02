@@ -8,16 +8,7 @@ import ConfirmHiddenAssignment from '@cdo/apps/templates/courseOverview/ConfirmH
 import {
   isScriptHiddenForSection,
   updateHiddenScript
-} from '@cdo/apps/code-studio/hiddenStageRedux';
-
-const styles = {
-  buttonMargin: {
-    marginLeft: 10
-  },
-  buttonMarginRTL: {
-    marginRight: 10
-  }
-};
+} from '@cdo/apps/code-studio/hiddenLessonRedux';
 
 class AssignButton extends React.Component {
   static propTypes = {
@@ -111,11 +102,24 @@ class AssignButton extends React.Component {
   }
 }
 
+const styles = {
+  buttonMargin: {
+    marginLeft: 10,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  buttonMarginRTL: {
+    marginRight: 10,
+    display: 'flex',
+    alignItems: 'center'
+  }
+};
+
 export const UnconnectedAssignButton = AssignButton;
 
 export default connect(
   state => ({
-    hiddenStageState: state.hiddenStage,
+    hiddenStageState: state.hiddenLesson,
     isRtl: state.isRtl
   }),
   {

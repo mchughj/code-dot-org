@@ -59,10 +59,10 @@ describe('LevelDetailsDialogTest', () => {
       />
     );
     const levelLink = wrapper.find('Button').at(1);
-    levelLink.simulate('click');
+    levelLink.simulate('click', {preventDefault: () => {}});
     expect(firehoseClient.putRecord).to.have.been.calledOnce;
     firehoseClient.putRecord.yieldTo('callback');
-    expect(utils.windowOpen).to.have.been.calledWith('level.url');
+    expect(utils.windowOpen).to.have.been.calledWith('level.url?no_redirect=1');
 
     utils.windowOpen.restore();
     firehoseClient.putRecord.restore();
@@ -311,8 +311,9 @@ describe('LevelDetailsDialogTest', () => {
           level: {
             type: 'Multi',
             id: 'level',
-            question:
-              'Look at the code below and predict how the headings will be displayed.',
+            content: [
+              'Look at the code below and predict how the headings will be displayed.'
+            ],
             questionText: 'Eggs, Bacon, Waffles',
             teacherMarkdown: 'This is a multiple choice level.'
           }

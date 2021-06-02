@@ -30,6 +30,7 @@ class XhrProxyController < ApplicationController
     api.blizzard.com
     api.coinlayer.com
     api.datamuse.com
+    api.duckduckgo.com
     api.energidataservice.dk
     api.exchangeratesapi.io
     api.football-data.org
@@ -40,6 +41,7 @@ class XhrProxyController < ApplicationController
     api.nookipedia.com
     api.opencagedata.com
     api.open-notify.org
+    api.openrouteservice.org
     api.openweathermap.org
     api.pegelalarm.at
     api.randomuser.me
@@ -52,6 +54,7 @@ class XhrProxyController < ApplicationController
     api.thingspeak.com
     api.uclassify.com
     api.waqi.info
+    api.weather.gov
     api.zippopotam.us
     bible-api.com
     code.org
@@ -61,7 +64,8 @@ class XhrProxyController < ApplicationController
     data.cityofchicago.org
     data.gv.at
     data.nasa.gov
-    developer.accuweather.com
+    dataservice.accuweather.com
+    distanza.org
     dweet.io
     enclout.com
     herokuapp.com
@@ -69,18 +73,18 @@ class XhrProxyController < ApplicationController
     images-api.nasa.gov
     isenseproject.org
     lakeside-cs.org
-    opentdb.com
-    pixabay.com
-    pokeapi.co
-    qrng.anu.edu.au
-    quandl.com
-    rejseplanen.dk
     maker.ifttt.com
     myschoolapp.com
     noaa.gov
     numbersapi.com
+    opentdb.com
     pastebin.com
+    pixabay.com
+    pokeapi.co
+    qrng.anu.edu.au
+    quandl.com
     random.org
+    rejseplanen.dk
     restcountries.eu
     runescape.com
     sessionserver.mojang.com

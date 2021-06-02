@@ -330,7 +330,7 @@ reporting.sendReport = function(report) {
           response.redirect = fallback.redirect;
         }
         if (appOptions.isBonusLevel) {
-          // Bonus levels might have to take students back to a different stage,
+          // Bonus levels might have to take students back to a different lesson,
           // ignore the redirect in response and use the url from appOptions
           // instead
           response.redirect = appOptions.nextLevelUrl;
@@ -415,7 +415,7 @@ function reportComplete(report, response) {
     lastServerResponse.videoInfo = response.video_info;
     lastServerResponse.endOfStageExperience = response.end_of_stage_experience;
     lastServerResponse.previousStageInfo =
-      response.stage_changing && response.stage_changing.previous;
+      response.lesson_changing && response.lesson_changing.previous;
   }
   if (report.onComplete) {
     report.onComplete(response);

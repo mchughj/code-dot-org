@@ -25,33 +25,17 @@ module LevelsHelper
       if script_level.lesson.numbered_lesson?
         puzzle_page_script_lesson_script_level_path(script_level.script, script_level.lesson, script_level, params[:puzzle_page])
       else
-        puzzle_page_script_lockable_stage_script_level_path(script_level.script, script_level.lesson, script_level, params[:puzzle_page])
+        puzzle_page_script_lockable_lesson_script_level_path(script_level.script, script_level.lesson, script_level, params[:puzzle_page])
       end
     elsif params[:sublevel_position]
       sublevel_script_lesson_script_level_path(script_level.script, script_level.lesson, script_level, params[:sublevel_position])
     elsif !script_level.lesson.numbered_lesson?
-      script_lockable_stage_script_level_path(script_level.script, script_level.lesson, script_level, params)
+      script_lockable_lesson_script_level_path(script_level.script, script_level.lesson, script_level, params)
     elsif script_level.bonus
       query_params = params.merge(level_name: script_level.level.name)
       script_lesson_extras_path(script_level.script.name, script_level.lesson.relative_position, query_params)
     else
       script_lesson_script_level_path(script_level.script, script_level.lesson, script_level, params)
-    end
-  end
-
-  # This is a a temporary method to help with moving translations onto the new level urls. To start this will
-  # keep translations on the old URL until foundations can do the work to bring them over to the new url
-  def build_script_level_path_for_translations(script_level)
-    if script_level.script.name == Script::HOC_NAME
-      hoc_chapter_path(script_level.chapter)
-    elsif script_level.script.name == Script::FLAPPY_NAME
-      flappy_chapter_path(script_level.chapter)
-    elsif !script_level.lesson.numbered_lesson?
-      script_lockable_stage_script_level_path(script_level.script, script_level.lesson, script_level)
-    elsif script_level.bonus
-      `/s/#{script_level.script.name}/stage/#{script_level.lesson.relative_position}/extras?level_name=#{script_level.level.name}`
-    else
-      `/s/#{script_level.script.name}/stage/#{script_level.lesson.relative_position}/puzzle/#{script_level.position}`
     end
   end
 
@@ -121,6 +105,21 @@ module LevelsHelper
     end
 
     channel_token&.channel
+  end
+
+  # If given a level, script and a user, returns whether the level
+  # has been started by the user. A channel-backed level is considered started when a
+  # channel is created for the level, which happens when the user first visits the level page.
+  # Other levels are considered started when progress has been saved for the level (for example
+  # clicking the run button saves progress).
+  def level_started?(level, script, user)
+    return false unless user.present?
+
+    if level.channel_backed?
+      return get_channel_for(level, user).present?
+    else
+      user.last_attempt(level, script).present?
+    end
   end
 
   def select_and_track_autoplay_video
@@ -196,7 +195,7 @@ module LevelsHelper
       view_options(
         lesson_position: @script_level.lesson.absolute_position,
         level_position: @script_level.position,
-        next_level_url: @script_level.next_level_or_redirect_path_for_user(current_user, @stage)
+        next_level_url: @script_level.next_level_or_redirect_path_for_user(current_user, @lesson)
       )
     end
 
@@ -294,6 +293,10 @@ module LevelsHelper
       @app_options[:level][:levelVideos] = @level.related_videos.map(&:summarize)
       @app_options[:level][:mapReference] = @level.map_reference
       @app_options[:level][:referenceLinks] = @level.reference_links
+
+      if (@user || current_user) && @script
+        @app_options[:level][:isStarted] = level_started?(@level, @script, @user || current_user)
+      end
     end
 
     if current_user
@@ -311,6 +314,7 @@ module LevelsHelper
       @app_options[:experiments] =
         Experiment.get_all_enabled(user: current_user, section: section, script: @script).pluck(:name)
       @app_options[:usingTextModePref] = !!current_user.using_text_mode
+      @app_options[:usingDarkModePref] = !!current_user.using_dark_mode
       @app_options[:userSharingDisabled] = current_user.sharing_disabled?
     end
 
@@ -381,7 +385,7 @@ module LevelsHelper
   def set_puzzle_position_options(level_options)
     script_level = @script_level
     level_options['puzzle_number'] = script_level ? script_level.position : 1
-    level_options['stage_total'] = script_level ? script_level.lesson_total : 1
+    level_options['lesson_total'] = script_level ? script_level.lesson_total : 1
   end
 
   # Options hash for non-blockly puzzle apps
@@ -511,7 +515,7 @@ module LevelsHelper
     # ScriptLevel-dependent option
     script_level = @script_level
     level_options['puzzle_number'] = script_level ? script_level.position : 1
-    level_options['stage_total'] = script_level ? script_level.lesson_total : 1
+    level_options['lesson_total'] = script_level ? script_level.lesson_total : 1
     level_options['final_level'] = script_level.final_level? if script_level
 
     # Edit blocks-dependent options
@@ -536,9 +540,13 @@ module LevelsHelper
       app_options['netsimMaxRouters'] = CDO.netsim_max_routers
     end
 
+    # Allow levelbuilders building AppLab widgets in start mode to access Applab as usual.
+    # Everywhere else, widgets should be treated as embedded levels.
+    treat_widget_as_embed = level_options['widgetMode'] && !@is_start_mode
+
     # Process level view options
     level_overrides = level_view_options(@level.id).dup
-    level_options['embed'] = level_options['embed'] || level_options['widgetMode']
+    level_options['embed'] = level_options['embed'] || treat_widget_as_embed
     if level_options['embed'] || level_overrides[:embed]
       level_overrides[:hide_source] = true
       level_overrides[:show_finish] = true
@@ -712,10 +720,10 @@ module LevelsHelper
         else
           data_t_suffix 'script.name', @script_level.script.name, 'title'
         end
-      stage = @script_level.name
+      lesson = @script_level.name
       position = @script_level.position
       if @script_level.script.lessons.many?
-        "#{script}: #{stage} ##{position}"
+        "#{script}: #{lesson} ##{position}"
       elsif @script_level.position != 1
         "#{script} ##{position}"
       else

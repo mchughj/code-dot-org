@@ -29,33 +29,6 @@ import {
 import {linkWithQueryParams, navigateToHref} from '@cdo/apps/utils';
 import SaveBar from '@cdo/apps/lib/levelbuilder/SaveBar';
 
-const styles = {
-  editor: {
-    width: '100%'
-  },
-  input: {
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '4px 6px',
-    color: '#555',
-    border: '1px solid #ccc',
-    borderRadius: 4,
-    margin: 0
-  },
-  checkbox: {
-    margin: '0 0 0 7px'
-  },
-  dropdown: {
-    margin: '0 6px',
-    width: 300
-  },
-  warning: {
-    fontSize: 20,
-    fontStyle: 'italic',
-    padding: 10
-  }
-};
-
 class LessonEditor extends Component {
   static propTypes = {
     relatedLessons: PropTypes.arrayOf(relatedLessonShape).isRequired,
@@ -98,6 +71,12 @@ class LessonEditor extends Component {
       originalLessonData: this.props.initialLessonData
     };
   }
+
+  handleView = () => {
+    navigateToHref(
+      linkWithQueryParams(this.state.originalLessonData.lessonPath)
+    );
+  };
 
   handleSave = (event, shouldCloseAfterSave) => {
     event.preventDefault();
@@ -463,7 +442,12 @@ class LessonEditor extends Component {
                 standards={standards}
                 frameworks={frameworks}
               />
-              <h3>Opportunity Standards</h3>
+            </CollapsibleEditorSection>
+            <CollapsibleEditorSection
+              title="Opportunity Standards"
+              collapsed={true}
+              fullwidth={true}
+            >
               <StandardsEditor
                 standardType={'opportunityStandard'}
                 standards={opportunityStandards}
@@ -478,6 +462,7 @@ class LessonEditor extends Component {
 
         <SaveBar
           handleSave={this.handleSave}
+          handleView={this.handleView}
           error={this.state.error}
           isSaving={this.state.isSaving}
           lastSaved={this.state.lastSaved}
@@ -486,6 +471,33 @@ class LessonEditor extends Component {
     );
   }
 }
+
+const styles = {
+  editor: {
+    width: '100%'
+  },
+  input: {
+    width: '100%',
+    boxSizing: 'border-box',
+    padding: '4px 6px',
+    color: '#555',
+    border: '1px solid #ccc',
+    borderRadius: 4,
+    margin: 0
+  },
+  checkbox: {
+    margin: '0 0 0 7px'
+  },
+  dropdown: {
+    margin: '0 6px',
+    width: 300
+  },
+  warning: {
+    fontSize: 20,
+    fontStyle: 'italic',
+    padding: 10
+  }
+};
 
 export const UnconnectedLessonEditor = LessonEditor;
 

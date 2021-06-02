@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import classNames from 'classnames';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import TeacherOnlyMarkdown from './TeacherOnlyMarkdown';
@@ -10,6 +11,8 @@ import TeacherFeedback from './TeacherFeedback';
 import ContainedLevel from '../ContainedLevel';
 import ContainedLevelAnswer from '../ContainedLevelAnswer';
 import HelpTabContents from './HelpTabContents';
+import DocumentationTab from './DocumentationTab';
+import ReviewTab from './ReviewTab';
 import {
   toggleInstructionsCollapsed,
   setInstructionsMaxHeightNeeded,
@@ -27,10 +30,10 @@ import {ViewType} from '@cdo/apps/code-studio/viewAsRedux';
 import queryString from 'query-string';
 import InstructionsCSF from './InstructionsCSF';
 import firehoseClient from '@cdo/apps/lib/util/firehose';
-import {WIDGET_WIDTH} from '@cdo/apps/applab/constants';
 import {hasInstructions} from './utils';
 import * as topInstructionsDataApi from './topInstructionsDataApi';
 import TopInstructionsHeader from './TopInstructionsHeader';
+import {Z_INDEX as OVERLAY_Z_INDEX} from '../Overlay';
 
 const HEADER_HEIGHT = styleConstants['workspace-headers-height'];
 const RESIZER_HEIGHT = styleConstants['resize-bar-width'];
@@ -41,6 +44,8 @@ export const TabType = {
   INSTRUCTIONS: 'instructions',
   RESOURCES: 'resources',
   COMMENTS: 'comments',
+  DOCUMENTATION: 'documentation',
+  REVIEW: 'review',
   TEACHER_ONLY: 'teacher-only'
 };
 
@@ -56,58 +61,6 @@ const craftStyles = {
   }
 };
 
-const styles = {
-  main: {
-    position: 'absolute',
-    marginLeft: 15,
-    top: 0,
-    right: 0
-    // left handled by media queries for .editor-column
-  },
-  mainRtl: {
-    position: 'absolute',
-    marginRight: 15,
-    top: 0,
-    left: 0
-    // right handled by media queries for .editor-column
-  },
-  noViz: {
-    left: 0,
-    right: 0,
-    marginRight: 0,
-    marginLeft: 0
-  },
-  body: {
-    backgroundColor: 'white',
-    paddingLeft: 10,
-    paddingRight: 10,
-    position: 'absolute',
-    top: HEADER_HEIGHT,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    overflowY: 'scroll'
-  },
-  csfBody: {
-    backgroundColor: '#ddd',
-    position: 'absolute',
-    top: HEADER_HEIGHT,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    overflow: 'hidden'
-  },
-  embedView: {
-    height: undefined,
-    bottom: 0
-  },
-  title: {
-    textAlign: 'center',
-    height: HEADER_HEIGHT,
-    lineHeight: HEADER_HEIGHT + 'px'
-  }
-};
-
 class TopInstructions extends Component {
   static propTypes = {
     isEmbedView: PropTypes.bool.isRequired,
@@ -118,6 +71,7 @@ class TopInstructions extends Component {
     longInstructions: PropTypes.string,
     dynamicInstructions: PropTypes.object,
     dynamicInstructionsKey: PropTypes.string,
+    overlayVisible: PropTypes.bool,
     ttsLongInstructionsUrl: PropTypes.string,
     isCollapsed: PropTypes.bool.isRequired,
     noVisualization: PropTypes.bool.isRequired,
@@ -140,12 +94,16 @@ class TopInstructions extends Component {
     isMinecraft: PropTypes.bool.isRequired,
     isBlockly: PropTypes.bool.isRequired,
     isRtl: PropTypes.bool.isRequired,
-    widgetMode: PropTypes.bool,
     mainStyle: PropTypes.object,
     containerStyle: PropTypes.object,
     resizable: PropTypes.bool,
     setAllowInstructionsResize: PropTypes.func,
-    collapsible: PropTypes.bool
+    collapsible: PropTypes.bool,
+    displayDocumentationTab: PropTypes.bool,
+    displayReviewTab: PropTypes.bool,
+    // Use this if the instructions will be somewhere other than over the code workspace.
+    // This will allow instructions to be resized separately from the workspace.
+    standalone: PropTypes.bool
   };
 
   static defaultProps = {
@@ -183,6 +141,8 @@ class TopInstructions extends Component {
     this.instructions = null;
     this.helpTab = null;
     this.commentTab = null;
+    this.documentationTab = null;
+    this.reviewTab = null;
     this.teacherOnlyTab = null;
   }
 
@@ -190,12 +150,17 @@ class TopInstructions extends Component {
    * Calculate our initial height (based off of rendered height of instructions)
    */
   componentDidMount() {
-    const {user, serverLevelId, serverScriptId} = this.props;
+    const {
+      user,
+      serverLevelId,
+      serverScriptId,
+      dynamicInstructions
+    } = this.props;
     const {studentId} = this.state;
 
     window.addEventListener('resize', this.adjustMaxNeededHeight);
 
-    if (!this.props.dynamicInstructions) {
+    if (!dynamicInstructions) {
       const maxNeededHeight = this.adjustMaxNeededHeight();
 
       // Initially set to 300. This might be adjusted when InstructionsWithWorkspace
@@ -325,6 +290,19 @@ class TopInstructions extends Component {
     this.props.setInstructionsRenderedHeight(newHeight);
   };
 
+  refForSelectedTab = () => {
+    const tabRefs = {
+      [TabType.INSTRUCTIONS]: this.instructions,
+      [TabType.RESOURCES]: this.helpTab,
+      [TabType.COMMENTS]: this.commentTab,
+      [TabType.DOCUMENTATION]: this.documentationTab,
+      [TabType.REVIEW]: this.reviewTab,
+      [TabType.TEACHER_ONLY]: this.teacherOnlyTab
+    };
+
+    return tabRefs[this.state.tabSelected];
+  };
+
   /**
    * Calculate how much height it would take to show top instructions with our
    * entire instructions visible and update store with this value.
@@ -349,23 +327,8 @@ class TopInstructions extends Component {
       return 0;
     }
 
-    let element;
-    switch (this.state.tabSelected) {
-      case TabType.RESOURCES:
-        element = this.helpTab;
-        break;
-      case TabType.INSTRUCTIONS:
-        element = this.instructions;
-        break;
-      case TabType.COMMENTS:
-        element = this.commentTab;
-        break;
-      case TabType.TEACHER_ONLY:
-        element = this.teacherOnlyTab;
-        break;
-    }
     const maxNeededHeight =
-      $(ReactDOM.findDOMNode(element)).outerHeight(true) +
+      $(ReactDOM.findDOMNode(this.refForSelectedTab())).outerHeight(true) +
       HEADER_HEIGHT +
       RESIZER_HEIGHT;
 
@@ -425,21 +388,17 @@ class TopInstructions extends Component {
     firehoseClient.putRecord(record);
   }
 
-  handleHelpTabClick = () => {
+  handleTabClick = newTab => {
     this.scrollToTopOfTab();
-    this.setState({tabSelected: TabType.RESOURCES}, () => {
+    this.setState({tabSelected: newTab}, () => {
       this.scrollToTopOfTab();
       this.adjustMaxNeededHeight();
     });
-    this.recordEvent('click-help-and-tips-tab');
   };
 
-  handleInstructionTabClick = () => {
-    this.scrollToTopOfTab();
-    this.setState({tabSelected: TabType.INSTRUCTIONS}, () => {
-      this.scrollToTopOfTab();
-      this.adjustMaxNeededHeight();
-    });
+  handleHelpTabClick = () => {
+    this.handleTabClick(TabType.RESOURCES);
+    this.recordEvent('click-help-and-tips-tab');
   };
 
   handleCommentTabClick = () => {
@@ -458,10 +417,7 @@ class TopInstructions extends Component {
   };
 
   handleTeacherOnlyTabClick = () => {
-    this.setState({tabSelected: TabType.TEACHER_ONLY}, () => {
-      this.scrollToTopOfTab();
-      this.adjustMaxNeededHeight();
-    });
+    this.handleTabClick(TabType.TEACHER_ONLY);
     this.recordEvent('click-teacher-only-tab');
   };
 
@@ -536,7 +492,6 @@ class TopInstructions extends Component {
             dynamicInstructionsKey={dynamicInstructionsKey}
             setInstructionsRenderedHeight={height => {
               this.props.setInstructionsRenderedHeight(height);
-              this.props.setAllowInstructionsResize(false);
             }}
           />
         );
@@ -562,13 +517,13 @@ class TopInstructions extends Component {
       longInstructions,
       dynamicInstructions,
       dynamicInstructionsKey,
+      overlayVisible,
       hasContainedLevels,
       noInstructionsWhenCollapsed,
       noVisualization,
       isRtl,
       height,
       isEmbedView,
-      widgetMode,
       levelVideos,
       mapReference,
       referenceLinks,
@@ -580,7 +535,10 @@ class TopInstructions extends Component {
       containerStyle,
       resizable,
       documentationUrl,
-      ttsLongInstructionsUrl
+      ttsLongInstructionsUrl,
+      standalone,
+      displayDocumentationTab,
+      displayReviewTab
     } = this.props;
 
     const {
@@ -596,17 +554,18 @@ class TopInstructions extends Component {
     // instead of inferring it from noInstructionsWhenCollapsed
     const isCSF = !noInstructionsWhenCollapsed;
     const isCSDorCSP = !isCSF;
-    const widgetWidth = WIDGET_WIDTH + 'px';
 
     const topInstructionsStyle = [
-      !mainStyle && (isRtl ? styles.mainRtl : styles.main),
+      isRtl ? styles.mainRtl : styles.main,
       mainStyle,
       {
         height: height - RESIZER_HEIGHT
       },
       noVisualization && styles.noViz,
       isEmbedView && styles.embedView,
-      widgetMode && (isRtl ? {right: widgetWidth} : {left: widgetWidth})
+      dynamicInstructions &&
+        overlayVisible &&
+        styles.dynamicInstructionsWithOverlay
     ];
 
     const instructionsContainerStyle = [
@@ -636,13 +595,13 @@ class TopInstructions extends Component {
      * The Key Concept tab shows the Key Concept and Rubric for the level in a view
      * only form
      */
-    const displayKeyConcept =
+    const displayReadonlyRubric =
       rubric &&
       ((this.isViewingAsStudent && !studentHasFeedback) ||
         (this.isViewingAsTeacher && !teacherViewingStudentWork));
 
     const displayFeedback =
-      displayKeyConcept || teacherViewingStudentWork || studentHasFeedback;
+      displayReadonlyRubric || teacherViewingStudentWork || studentHasFeedback;
 
     // Teacher is viewing students work and in the Feedback Tab
     const teacherOnly =
@@ -675,7 +634,7 @@ class TopInstructions extends Component {
     return (
       <div
         style={topInstructionsStyle}
-        className="editor-column"
+        className={classNames({'editor-column': !standalone})}
         ref={ref => (this.topInstructions = ref)}
       >
         <TopInstructionsHeader
@@ -684,13 +643,21 @@ class TopInstructions extends Component {
           isCSDorCSP={isCSDorCSP}
           displayHelpTab={displayHelpTab}
           displayFeedback={displayFeedback}
-          displayKeyConcept={displayKeyConcept}
+          displayKeyConcept={displayReadonlyRubric} // Key Concept tab displays a readonly rubric
+          displayDocumentationTab={displayDocumentationTab}
+          displayReviewTab={displayReviewTab}
           isViewingAsTeacher={this.isViewingAsTeacher}
           fetchingData={fetchingData}
           handleDocumentationClick={this.handleDocumentationClick}
-          handleInstructionTabClick={this.handleInstructionTabClick}
+          handleInstructionTabClick={() =>
+            this.handleTabClick(TabType.INSTRUCTIONS)
+          }
           handleHelpTabClick={this.handleHelpTabClick}
           handleCommentTabClick={this.handleCommentTabClick}
+          handleDocumentationTabClick={() =>
+            this.handleTabClick(TabType.DOCUMENTATION)
+          }
+          handleReviewTabClick={() => this.handleTabClick(TabType.REVIEW)}
           handleTeacherOnlyTabClick={this.handleTeacherOnlyTabClick}
           collapsible={this.props.collapsible}
           handleClickCollapser={this.handleClickCollapser}
@@ -713,18 +680,24 @@ class TopInstructions extends Component {
               <TeacherFeedback
                 user={user}
                 visible={tabSelected === TabType.COMMENTS}
-                displayKeyConcept={displayKeyConcept}
+                displayReadonlyRubric={displayReadonlyRubric}
                 disabledMode={
                   this.isViewingAsStudent || !teacherViewingStudentWork
                 }
                 rubric={rubric}
                 ref={ref => (this.commentTab = ref)}
-                latestFeedback={feedbacks}
+                latestFeedback={feedbacks.length ? feedbacks[0] : null}
                 token={token}
                 serverScriptId={this.props.serverScriptId}
                 serverLevelId={this.props.serverLevelId}
                 teacher={this.props.user}
               />
+            )}
+            {tabSelected === TabType.DOCUMENTATION && (
+              <DocumentationTab ref={ref => (this.documentationTab = ref)} />
+            )}
+            {tabSelected === TabType.REVIEW && (
+              <ReviewTab ref={ref => (this.reviewTab = ref)} />
             )}
             {this.isViewingAsTeacher &&
               (hasContainedLevels || teacherMarkdown) && (
@@ -744,7 +717,7 @@ class TopInstructions extends Component {
                 </div>
               )}
           </div>
-          {!isEmbedView && resizable && (
+          {!isEmbedView && resizable && !dynamicInstructions && (
             <HeightResizer
               resizeItemTop={this.getItemTop}
               position={height}
@@ -756,6 +729,61 @@ class TopInstructions extends Component {
     );
   }
 }
+
+const styles = {
+  main: {
+    position: 'absolute',
+    marginLeft: 15,
+    top: 0,
+    right: 0
+    // left handled by media queries for .editor-column
+  },
+  mainRtl: {
+    position: 'absolute',
+    marginRight: 15,
+    top: 0,
+    left: 0
+    // right handled by media queries for .editor-column
+  },
+  noViz: {
+    left: 0,
+    right: 0,
+    marginRight: 0,
+    marginLeft: 0
+  },
+  body: {
+    backgroundColor: 'white',
+    paddingLeft: 10,
+    paddingRight: 10,
+    position: 'absolute',
+    top: HEADER_HEIGHT,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflowY: 'scroll'
+  },
+  csfBody: {
+    backgroundColor: '#ddd',
+    position: 'absolute',
+    top: HEADER_HEIGHT,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflow: 'hidden'
+  },
+  embedView: {
+    height: undefined,
+    bottom: 0
+  },
+  title: {
+    textAlign: 'center',
+    height: HEADER_HEIGHT,
+    lineHeight: HEADER_HEIGHT + 'px'
+  },
+  dynamicInstructionsWithOverlay: {
+    zIndex: OVERLAY_Z_INDEX + 1
+  }
+};
 // Note: ususally the unconnected component is only used for tests, in this case it is used
 // in LevelDetailsDialog, so all of it's children may not rely on the redux store for data
 export const UnconnectedTopInstructions = Radium(TopInstructions);
@@ -789,9 +817,9 @@ export default connect(
     hidden: state.pageConstants.isShareView,
     shortInstructions: state.instructions.shortInstructions,
     isRtl: state.isRtl,
-    widgetMode: state.pageConstants.widgetMode,
     dynamicInstructions: getDynamicInstructions(state.instructions),
-    dynamicInstructionsKey: state.instructions.dynamicInstructionsKey
+    dynamicInstructionsKey: state.instructions.dynamicInstructionsKey,
+    overlayVisible: state.instructions.overlayVisible
   }),
   dispatch => ({
     toggleInstructionsCollapsed() {
