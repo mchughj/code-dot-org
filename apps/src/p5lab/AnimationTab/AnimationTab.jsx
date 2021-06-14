@@ -4,7 +4,9 @@ import React from 'react';
 import Radium from 'radium';
 import {connect} from 'react-redux';
 import color from '@cdo/apps/util/color';
+import experiments from '@cdo/apps/util/experiments';
 import AnimationPicker from '../AnimationPicker/AnimationPicker';
+import GraphicsPicker from '../GraphicsPicker/GraphicsPicker';
 import P5LabVisualizationHeader from '../P5LabVisualizationHeader';
 import {setColumnSizes} from '../redux/animationTab';
 import AnimationList from './AnimationList';
@@ -17,6 +19,7 @@ import * as shapes from '../shapes';
  */
 class AnimationTab extends React.Component {
   static propTypes = {
+    spriteLab: PropTypes.bool.isRequired,
     channelId: PropTypes.string.isRequired,
     onColumnWidthsChange: PropTypes.func.isRequired,
     libraryManifest: PropTypes.object.isRequired,
@@ -28,6 +31,12 @@ class AnimationTab extends React.Component {
     columnSizes: PropTypes.arrayOf(PropTypes.number).isRequired,
     selectedAnimation: shapes.AnimationKey
   };
+
+  constructor(props) {
+    super(props);
+    this.collectionsEnabled =
+      this.props.spriteLab && experiments.isEnabled(experiments.COLLECTIONS);
+  }
 
   render() {
     let hidePiskelStyle = {visibility: 'visible'};
@@ -54,18 +63,21 @@ class AnimationTab extends React.Component {
             </div>
           </div>
         </ResizablePanes>
-        {this.props.channelId && (
-          <AnimationPicker
-            channelId={this.props.channelId}
-            allowedExtensions=".png,.jpg,.jpeg"
-            libraryManifest={this.props.libraryManifest}
-            hideUploadOption={this.props.hideUploadOption}
-            hideAnimationNames={this.props.hideAnimationNames}
-            navigable={true}
-            canDraw={true}
-            hideBackgrounds={this.props.hideBackgrounds}
-          />
-        )}
+        {this.props.channelId &&
+          (this.collectionsEnabled ? (
+            <GraphicsPicker />
+          ) : (
+            <AnimationPicker
+              channelId={this.props.channelId}
+              allowedExtensions=".png,.jpg,.jpeg"
+              libraryManifest={this.props.libraryManifest}
+              hideUploadOption={this.props.hideUploadOption}
+              hideAnimationNames={this.props.hideAnimationNames}
+              navigable={true}
+              canDraw={true}
+              hideBackgrounds={this.props.hideBackgrounds}
+            />
+          ))}
       </div>
     );
   }

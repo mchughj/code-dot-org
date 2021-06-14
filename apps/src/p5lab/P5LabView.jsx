@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
+import experiments from '@cdo/apps/util/experiments';
 import AnimationTab from './AnimationTab/AnimationTab';
 import StudioAppWrapper from '@cdo/apps/templates/StudioAppWrapper';
 import ErrorDialogStack from './ErrorDialogStack';
@@ -18,6 +19,7 @@ import {allowAnimationMode, showVisualizationHeader} from './stateQueries';
 import IFrameEmbedOverlay from '@cdo/apps/templates/IFrameEmbedOverlay';
 import VisualizationResizeBar from '@cdo/apps/lib/ui/VisualizationResizeBar';
 import AnimationPicker from './AnimationPicker/AnimationPicker';
+import GraphicsPicker from './GraphicsPicker/GraphicsPicker';
 import {getManifest} from '@cdo/apps/assetManagement/animationLibraryApi';
 
 /**
@@ -49,6 +51,11 @@ class P5LabView extends React.Component {
   state = {
     libraryManifest: {}
   };
+
+  constructor(props) {
+    super(props);
+    this.collectionsEnabled = experiments.isEnabled(experiments.COLLECTIONS);
+  }
 
   getChannelId() {
     if (dashboard && dashboard.project) {
@@ -116,19 +123,24 @@ class P5LabView extends React.Component {
             pauseHandler={this.props.pauseHandler}
             hidePauseButton={this.props.hidePauseButton}
           />
-          {this.getChannelId() && (
-            <AnimationPicker
-              channelId={this.getChannelId()}
-              allowedExtensions=".png,.jpg,.jpeg"
-              libraryManifest={this.state.libraryManifest}
-              hideUploadOption={this.props.spriteLab}
-              hideAnimationNames={this.props.spriteLab}
-              navigable={navigable}
-              defaultQuery={this.props.isBackground ? defaultQuery : undefined}
-              hideBackgrounds={hideBackgrounds}
-              canDraw={canDraw}
-            />
-          )}
+          {this.getChannelId() &&
+            (this.collectionsEnabled ? (
+              <GraphicsPicker />
+            ) : (
+              <AnimationPicker
+                channelId={this.getChannelId()}
+                allowedExtensions=".png,.jpg,.jpeg"
+                libraryManifest={this.state.libraryManifest}
+                hideUploadOption={this.props.spriteLab}
+                hideAnimationNames={this.props.spriteLab}
+                navigable={navigable}
+                defaultQuery={
+                  this.props.isBackground ? defaultQuery : undefined
+                }
+                hideBackgrounds={hideBackgrounds}
+                canDraw={canDraw}
+              />
+            ))}
         </div>
         {this.props.isIframeEmbed && !this.props.isRunning && (
           <IFrameEmbedOverlay
