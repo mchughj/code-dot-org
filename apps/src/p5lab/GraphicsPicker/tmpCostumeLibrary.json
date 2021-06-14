@@ -1,0 +1,887 @@
+{
+  "//": [
+    "Animation Library Manifest",
+    "GENERATED FILE: DO NOT MODIFY DIRECTLY",
+    "See tools/scripts/rebuildAnimationLibraryManifest.rb for more information."
+  ],
+  "metadata": {
+    "category_aquatic_objects/bubble": {
+      "name": "bubble",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 211,
+        "y": 215
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:10 UTC",
+      "pngLastModified": "2021-01-19 23:51:23 UTC",
+      "version": "oUeg8NWQn_oXIVMO86ZMTEUwERu98eOm",
+      "sourceUrl": "/api/v1/animation-library/spritelab/oUeg8NWQn_oXIVMO86ZMTEUwERu98eOm/category_aquatic_objects/bubble.png",
+      "sourceSize": {
+        "x": 211,
+        "y": 215
+      }
+    },
+    "category_aquatic_objects/shell_01": {
+      "name": "shell_01",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 398,
+        "y": 317
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:25 UTC",
+      "pngLastModified": "2021-01-19 23:51:21 UTC",
+      "version": "4eIfLdHY0ruulED_NI9KyZvtXGXpvEs6",
+      "sourceUrl": "/api/v1/animation-library/spritelab/4eIfLdHY0ruulED_NI9KyZvtXGXpvEs6/category_aquatic_objects/shell_01.png",
+      "sourceSize": {
+        "x": 398,
+        "y": 317
+      }
+    },
+    "category_aquatic_objects/shell_02": {
+      "name": "shell_02",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 395,
+        "y": 398
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:26 UTC",
+      "pngLastModified": "2021-01-19 23:51:22 UTC",
+      "version": "kU30.R2oIGdzRDlFiKVzwLXmaWGah8PO",
+      "sourceUrl": "/api/v1/animation-library/spritelab/kU30.R2oIGdzRDlFiKVzwLXmaWGah8PO/category_aquatic_objects/shell_02.png",
+      "sourceSize": {
+        "x": 395,
+        "y": 398
+      }
+    },
+    "category_aquatic_objects/shell_03": {
+      "name": "shell_03",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 398,
+        "y": 304
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:27 UTC",
+      "pngLastModified": "2021-01-19 23:51:21 UTC",
+      "version": "z6cdhWoitZ_sKTS_t3aS4ZweruCxWz76",
+      "sourceUrl": "/api/v1/animation-library/spritelab/z6cdhWoitZ_sKTS_t3aS4ZweruCxWz76/category_aquatic_objects/shell_03.png",
+      "sourceSize": {
+        "x": 398,
+        "y": 304
+      }
+    },
+    "category_aquatic_objects/shell_04": {
+      "name": "shell_04",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 389,
+        "y": 387
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:10 UTC",
+      "pngLastModified": "2021-01-19 23:51:19 UTC",
+      "version": "1bPj.8ftLDtaQxC8J8Wd9xLSrS1sQ38z",
+      "sourceUrl": "/api/v1/animation-library/spritelab/1bPj.8ftLDtaQxC8J8Wd9xLSrS1sQ38z/category_aquatic_objects/shell_04.png",
+      "sourceSize": {
+        "x": 389,
+        "y": 387
+      }
+    },
+    "category_aquatic_objects/shell_06": {
+      "name": "shell_06",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 398,
+        "y": 387
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:17 UTC",
+      "pngLastModified": "2021-01-19 23:51:17 UTC",
+      "version": "QRVdMkAEtYU.k7WLVub62rXtwR.JMFSg",
+      "sourceUrl": "/api/v1/animation-library/spritelab/QRVdMkAEtYU.k7WLVub62rXtwR.JMFSg/category_aquatic_objects/shell_06.png",
+      "sourceSize": {
+        "x": 398,
+        "y": 387
+      }
+    },
+    "category_aquatic_objects/shell_08": {
+      "name": "shell_08",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 277
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:13 UTC",
+      "pngLastModified": "2021-01-19 23:51:15 UTC",
+      "version": "zo_SNqGH855vqqDagNbN0xQnz6Z9UNkO",
+      "sourceUrl": "/api/v1/animation-library/spritelab/zo_SNqGH855vqqDagNbN0xQnz6Z9UNkO/category_aquatic_objects/shell_08.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 277
+      }
+    },
+    "category_aquatic_objects/underseadeco_24": {
+      "name": "underseadeco_24",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 301,
+        "y": 397
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:16 UTC",
+      "pngLastModified": "2021-01-19 23:51:15 UTC",
+      "version": "Od2KSKc7q9fYUdp.Fm0RCZPcgTjygssc",
+      "sourceUrl": "/api/v1/animation-library/spritelab/Od2KSKc7q9fYUdp.Fm0RCZPcgTjygssc/category_aquatic_objects/underseadeco_24.png",
+      "sourceSize": {
+        "x": 301,
+        "y": 397
+      }
+    },
+    "category_aquatic_objects/underseadeco_25": {
+      "name": "underseadeco_25",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 316,
+        "y": 394
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:11 UTC",
+      "pngLastModified": "2021-01-19 23:51:14 UTC",
+      "version": "BhwhWkxxwEdIvnGKm6st6kqUm9QvS.bw",
+      "sourceUrl": "/api/v1/animation-library/spritelab/BhwhWkxxwEdIvnGKm6st6kqUm9QvS.bw/category_aquatic_objects/underseadeco_25.png",
+      "sourceSize": {
+        "x": 316,
+        "y": 394
+      }
+    },
+    "category_aquatic_objects/underseadeco_32": {
+      "name": "underseadeco_32",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 397,
+        "y": 344
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:15 UTC",
+      "pngLastModified": "2021-01-19 23:51:17 UTC",
+      "version": "RnL4LiCOORbqhSFCsMAFZc83826oWFHA",
+      "sourceUrl": "/api/v1/animation-library/spritelab/RnL4LiCOORbqhSFCsMAFZc83826oWFHA/category_aquatic_objects/underseadeco_32.png",
+      "sourceSize": {
+        "x": 397,
+        "y": 344
+      }
+    },
+    "category_aquatic_objects/underseadeco_34": {
+      "name": "underseadeco_34",
+      "categories": ["aquatic_objects"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 280,
+        "y": 394
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:51:28 UTC",
+      "pngLastModified": "2021-01-19 23:51:12 UTC",
+      "version": "TINTYofzHWerk8F0c7uJG1h8n3zbRB1j",
+      "sourceUrl": "/api/v1/animation-library/spritelab/TINTYofzHWerk8F0c7uJG1h8n3zbRB1j/category_aquatic_objects/underseadeco_34.png",
+      "sourceSize": {
+        "x": 280,
+        "y": 394
+      }
+    },
+    "category_backgrounds/abstract_08": {
+      "name": "abstract_08",
+      "categories": ["backgrounds"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:53:40 UTC",
+      "pngLastModified": "2021-01-19 23:53:41 UTC",
+      "version": "41GrlDZzFV7TR2iGgbzvPVWcHKYsSt65",
+      "sourceUrl": "/api/v1/animation-library/spritelab/41GrlDZzFV7TR2iGgbzvPVWcHKYsSt65/category_backgrounds/abstract_08.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 400
+      }
+    },
+    "category_backgrounds/abstract_15": {
+      "name": "abstract_15",
+      "categories": ["backgrounds"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:53:41 UTC",
+      "pngLastModified": "2021-01-19 23:53:42 UTC",
+      "version": "POkrnIC8x9dIdloAiqZHbLhjvMMIhRsz",
+      "sourceUrl": "/api/v1/animation-library/spritelab/POkrnIC8x9dIdloAiqZHbLhjvMMIhRsz/category_backgrounds/abstract_15.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 400
+      }
+    },
+    "category_backgrounds/abstract_16": {
+      "name": "abstract_16",
+      "categories": ["backgrounds"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:53:42 UTC",
+      "pngLastModified": "2021-01-19 23:53:42 UTC",
+      "version": "aTkwBsNI2DUPllW9igzksg1e80zJ99Zv",
+      "sourceUrl": "/api/v1/animation-library/spritelab/aTkwBsNI2DUPllW9igzksg1e80zJ99Zv/category_backgrounds/abstract_16.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 400
+      }
+    },
+    "category_backgrounds/abstract_21": {
+      "name": "abstract_21",
+      "categories": ["backgrounds"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 379
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:53:43 UTC",
+      "pngLastModified": "2021-01-19 23:53:43 UTC",
+      "version": "nBdVVeXb4Y_NCjFNS_EUwbWzvHV31snK",
+      "sourceUrl": "/api/v1/animation-library/spritelab/nBdVVeXb4Y_NCjFNS_EUwbWzvHV31snK/category_backgrounds/abstract_21.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 379
+      }
+    },
+    "category_backgrounds/abstract_26": {
+      "name": "abstract_26",
+      "categories": ["backgrounds"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:53:44 UTC",
+      "pngLastModified": "2021-01-19 23:53:44 UTC",
+      "version": "BSkyx7ZEwCLxSuRid7QrvZNzm24fnJqp",
+      "sourceUrl": "/api/v1/animation-library/spritelab/BSkyx7ZEwCLxSuRid7QrvZNzm24fnJqp/category_backgrounds/abstract_26.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 400
+      }
+    },
+    "category_buildings/beachhouse_01": {
+      "name": "beachhouse_01",
+      "categories": ["buildings"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 336,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:57:49 UTC",
+      "pngLastModified": "2021-01-19 23:57:37 UTC",
+      "version": "K0FnyptKG7w_Yh1gcXQogT6IxJcI9Ivl",
+      "sourceUrl": "/api/v1/animation-library/spritelab/K0FnyptKG7w_Yh1gcXQogT6IxJcI9Ivl/category_buildings/beachhouse_01.png",
+      "sourceSize": {
+        "x": 336,
+        "y": 400
+      }
+    },
+    "category_buildings/beachhouse_03": {
+      "name": "beachhouse_03",
+      "categories": ["buildings"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 342,
+        "y": 333
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:57:26 UTC",
+      "pngLastModified": "2021-01-19 23:57:39 UTC",
+      "version": "9nnaXgRBtfDyTXhjDQRncduqWOR12yj1",
+      "sourceUrl": "/api/v1/animation-library/spritelab/9nnaXgRBtfDyTXhjDQRncduqWOR12yj1/category_buildings/beachhouse_03.png",
+      "sourceSize": {
+        "x": 342,
+        "y": 333
+      }
+    },
+    "category_buildings/beachhouse_05": {
+      "name": "beachhouse_05",
+      "categories": ["buildings"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 266,
+        "y": 352
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:57:44 UTC",
+      "pngLastModified": "2021-01-19 23:57:43 UTC",
+      "version": "O.r_i8QvI9t99JUJTWbLtNLicSgLe3hv",
+      "sourceUrl": "/api/v1/animation-library/spritelab/O.r_i8QvI9t99JUJTWbLtNLicSgLe3hv/category_buildings/beachhouse_05.png",
+      "sourceSize": {
+        "x": 266,
+        "y": 352
+      }
+    },
+    "category_buildings/beachhouse_08": {
+      "name": "beachhouse_08",
+      "categories": ["buildings"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 238,
+        "y": 349
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:57:38 UTC",
+      "pngLastModified": "2021-01-19 23:57:57 UTC",
+      "version": "owQaUWs6Gym0jTL0uTGqk6Oix_2CFESH",
+      "sourceUrl": "/api/v1/animation-library/spritelab/owQaUWs6Gym0jTL0uTGqk6Oix_2CFESH/category_buildings/beachhouse_08.png",
+      "sourceSize": {
+        "x": 238,
+        "y": 349
+      }
+    },
+    "category_faces/gameplayfaces_02": {
+      "name": "gameplayfaces_02",
+      "categories": ["faces"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 391,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:55:53 UTC",
+      "pngLastModified": "2021-01-19 23:56:13 UTC",
+      "version": "zRVhpCv7VRHYcVYkPKzMKx0ZyQfW3XLJ",
+      "sourceUrl": "/api/v1/animation-library/spritelab/zRVhpCv7VRHYcVYkPKzMKx0ZyQfW3XLJ/category_faces/gameplayfaces_02.png",
+      "sourceSize": {
+        "x": 391,
+        "y": 400
+      }
+    },
+    "category_faces/gameplayfaces_03": {
+      "name": "gameplayfaces_03",
+      "categories": ["faces"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 391,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:55:54 UTC",
+      "pngLastModified": "2021-01-19 23:56:11 UTC",
+      "version": "HK3fHjZviKQ7IusvyofQZG8Tr9Rt8PaI",
+      "sourceUrl": "/api/v1/animation-library/spritelab/HK3fHjZviKQ7IusvyofQZG8Tr9Rt8PaI/category_faces/gameplayfaces_03.png",
+      "sourceSize": {
+        "x": 391,
+        "y": 400
+      }
+    },
+    "category_faces/gameplayfaces_04": {
+      "name": "gameplayfaces_04",
+      "categories": ["faces"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 391,
+        "y": 400
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-19 23:55:56 UTC",
+      "pngLastModified": "2021-01-19 23:55:49 UTC",
+      "version": "nsL6WkY4qtGkq9DD3kN2r9Rp3D5j.BCb",
+      "sourceUrl": "/api/v1/animation-library/spritelab/nsL6WkY4qtGkq9DD3kN2r9Rp3D5j.BCb/category_faces/gameplayfaces_04.png",
+      "sourceSize": {
+        "x": 391,
+        "y": 400
+      }
+    },
+    "category_fantasy/alienBeige": {
+      "name": "alienBeige",
+      "frameCount": 1,
+      "frameSize": {
+        "x": 66,
+        "y": 92
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "categories": ["fantasy"],
+      "jsonLastModified": "2021-03-01 22:09:57 UTC",
+      "pngLastModified": "2021-03-01 22:09:56 UTC",
+      "version": "JQZUk09X8Ecf4BD2JFMM71tv9C5hnhxL",
+      "sourceUrl": "/api/v1/animation-library/spritelab/JQZUk09X8Ecf4BD2JFMM71tv9C5hnhxL/category_fantasy/alienBeige.png",
+      "sourceSize": {
+        "x": 66,
+        "y": 92
+      }
+    },
+    "category_fantasy/alienBlue": {
+      "name": "alienBlue",
+      "frameCount": 1,
+      "frameSize": {
+        "x": 66,
+        "y": 92
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "categories": ["fantasy"],
+      "jsonLastModified": "2021-03-01 22:09:56 UTC",
+      "pngLastModified": "2021-03-01 22:09:55 UTC",
+      "version": "2rGSyQzhR7JKaUlmkE4Pqk9FnrB3GMBp",
+      "sourceUrl": "/api/v1/animation-library/spritelab/2rGSyQzhR7JKaUlmkE4Pqk9FnrB3GMBp/category_fantasy/alienBlue.png",
+      "sourceSize": {
+        "x": 66,
+        "y": 92
+      }
+    },
+    "category_fantasy/alienGreen": {
+      "name": "alienGreen",
+      "frameCount": 1,
+      "frameSize": {
+        "x": 66,
+        "y": 92
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "categories": ["fantasy"],
+      "jsonLastModified": "2021-03-01 22:09:55 UTC",
+      "pngLastModified": "2021-03-01 22:09:54 UTC",
+      "version": "LzqjT3ovSLMimxqSiV7d7EL7blVgVCKS",
+      "sourceUrl": "/api/v1/animation-library/spritelab/LzqjT3ovSLMimxqSiV7d7EL7blVgVCKS/category_fantasy/alienGreen.png",
+      "sourceSize": {
+        "x": 66,
+        "y": 92
+      }
+    },
+    "category_fantasy/alienPink": {
+      "name": "alienPink",
+      "frameCount": 1,
+      "frameSize": {
+        "x": 66,
+        "y": 92
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "categories": ["fantasy"],
+      "jsonLastModified": "2021-03-01 22:09:54 UTC",
+      "pngLastModified": "2021-03-01 22:09:53 UTC",
+      "version": "NKXPkpcoLejBHbxfBb8RNNgX0NhWKxat",
+      "sourceUrl": "/api/v1/animation-library/spritelab/NKXPkpcoLejBHbxfBb8RNNgX0NhWKxat/category_fantasy/alienPink.png",
+      "sourceSize": {
+        "x": 66,
+        "y": 92
+      }
+    },
+    "category_fantasy/alienYellow": {
+      "name": "alienYellow",
+      "frameCount": 1,
+      "frameSize": {
+        "x": 66,
+        "y": 82
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "categories": ["fantasy"],
+      "jsonLastModified": "2021-03-01 22:09:53 UTC",
+      "pngLastModified": "2021-03-01 22:09:53 UTC",
+      "version": "ZUC_qXA12dYpnVoYfo5gyCyZjug.0gKl",
+      "sourceUrl": "/api/v1/animation-library/spritelab/ZUC_qXA12dYpnVoYfo5gyCyZjug.0gKl/category_fantasy/alienYellow.png",
+      "sourceSize": {
+        "x": 66,
+        "y": 82
+      }
+    },
+    "category_music/bass_clef": {
+      "name": "bass_clef",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 212,
+        "y": 300
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:34 UTC",
+      "pngLastModified": "2021-01-20 00:14:53 UTC",
+      "version": "JSPJ22QWTxsZ5BlctTf.rBKe0cTSTZwU",
+      "sourceUrl": "/api/v1/animation-library/spritelab/JSPJ22QWTxsZ5BlctTf.rBKe0cTSTZwU/category_music/bass_clef.png",
+      "sourceSize": {
+        "x": 212,
+        "y": 300
+      }
+    },
+    "category_music/bugle": {
+      "name": "bugle",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 300,
+        "y": 96
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:35 UTC",
+      "pngLastModified": "2021-01-20 00:14:46 UTC",
+      "version": "0Ey3ek36QB4JRFwcLypy5xnOCI2Q3QE2",
+      "sourceUrl": "/api/v1/animation-library/spritelab/0Ey3ek36QB4JRFwcLypy5xnOCI2Q3QE2/category_music/bugle.png",
+      "sourceSize": {
+        "x": 300,
+        "y": 96
+      }
+    },
+    "category_music/cello": {
+      "name": "cello",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 91,
+        "y": 300
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:39 UTC",
+      "pngLastModified": "2021-01-20 00:14:47 UTC",
+      "version": "XDPdxZxAmr0s1ytXoEFNG5cwiP8b_tI4",
+      "sourceUrl": "/api/v1/animation-library/spritelab/XDPdxZxAmr0s1ytXoEFNG5cwiP8b_tI4/category_music/cello.png",
+      "sourceSize": {
+        "x": 91,
+        "y": 300
+      }
+    },
+    "category_music/double_bass": {
+      "name": "double_bass",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 250,
+        "y": 300
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:37 UTC",
+      "pngLastModified": "2021-01-20 00:14:42 UTC",
+      "version": "pvOdfzG8Oult_jVS95fNpSiXD6pr2LQG",
+      "sourceUrl": "/api/v1/animation-library/spritelab/pvOdfzG8Oult_jVS95fNpSiXD6pr2LQG/category_music/double_bass.png",
+      "sourceSize": {
+        "x": 250,
+        "y": 300
+      }
+    },
+    "category_music/drum_set": {
+      "name": "drum_set",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 300,
+        "y": 229
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:57 UTC",
+      "pngLastModified": "2021-01-20 00:15:02 UTC",
+      "version": "0wNgmXijgPvFBxen6oazn2cGek4lGqmp",
+      "sourceUrl": "/api/v1/animation-library/spritelab/0wNgmXijgPvFBxen6oazn2cGek4lGqmp/category_music/drum_set.png",
+      "sourceSize": {
+        "x": 300,
+        "y": 229
+      }
+    },
+    "category_music/eighth_note": {
+      "name": "eighth_note",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 212,
+        "y": 300
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:52 UTC",
+      "pngLastModified": "2021-01-20 00:14:38 UTC",
+      "version": "o7levVFrsI7nrFOkPqQhWrj5vplngveR",
+      "sourceUrl": "/api/v1/animation-library/spritelab/o7levVFrsI7nrFOkPqQhWrj5vplngveR/category_music/eighth_note.png",
+      "sourceSize": {
+        "x": 212,
+        "y": 300
+      }
+    },
+    "category_music/eighth_note_down": {
+      "name": "eighth_note_down",
+      "categories": ["music"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 212,
+        "y": 300
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:14:46 UTC",
+      "pngLastModified": "2021-01-20 00:15:01 UTC",
+      "version": "cokjLPdQqVQhAdfAUyx88fbhE0lmZlJj",
+      "sourceUrl": "/api/v1/animation-library/spritelab/cokjLPdQqVQhAdfAUyx88fbhE0lmZlJj/category_music/eighth_note_down.png",
+      "sourceSize": {
+        "x": 212,
+        "y": 300
+      }
+    },
+    "category_vehicles/blimp_01": {
+      "name": "blimp_01",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 242
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:43 UTC",
+      "pngLastModified": "2021-01-20 00:37:44 UTC",
+      "version": "zmP187Ws3tcE.vQlUMBL0bH5TVCjbbHb",
+      "sourceUrl": "/api/v1/animation-library/spritelab/zmP187Ws3tcE.vQlUMBL0bH5TVCjbbHb/category_vehicles/blimp_01.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 242
+      }
+    },
+    "category_vehicles/blimp_03": {
+      "name": "blimp_03",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 398,
+        "y": 268
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:44 UTC",
+      "pngLastModified": "2021-01-20 00:37:44 UTC",
+      "version": "E18rYtT5ybUq0MLVaqhkWH2dja7Yv7kg",
+      "sourceUrl": "/api/v1/animation-library/spritelab/E18rYtT5ybUq0MLVaqhkWH2dja7Yv7kg/category_vehicles/blimp_03.png",
+      "sourceSize": {
+        "x": 398,
+        "y": 268
+      }
+    },
+    "category_vehicles/boat": {
+      "name": "boat",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 128,
+        "y": 128
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:45 UTC",
+      "pngLastModified": "2021-01-20 00:37:45 UTC",
+      "version": "l90Q4TyT9AYRWsk2K7.EOKFj4YZuzQ6Y",
+      "sourceUrl": "/api/v1/animation-library/spritelab/l90Q4TyT9AYRWsk2K7.EOKFj4YZuzQ6Y/category_vehicles/boat.png",
+      "sourceSize": {
+        "x": 128,
+        "y": 128
+      }
+    },
+    "category_vehicles/boxcar_07": {
+      "name": "boxcar_07",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 288
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:46 UTC",
+      "pngLastModified": "2021-01-20 00:37:46 UTC",
+      "version": "CnjFYxQrNN0UzrhQmcnlaTGWRgUrNOpz",
+      "sourceUrl": "/api/v1/animation-library/spritelab/CnjFYxQrNN0UzrhQmcnlaTGWRgUrNOpz/category_vehicles/boxcar_07.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 288
+      }
+    },
+    "category_vehicles/boxcar_09": {
+      "name": "boxcar_09",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 288
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:47 UTC",
+      "pngLastModified": "2021-01-20 00:37:47 UTC",
+      "version": "CX0QvWpqRcjV4DMFtEnd45ojf4oqj2RC",
+      "sourceUrl": "/api/v1/animation-library/spritelab/CX0QvWpqRcjV4DMFtEnd45ojf4oqj2RC/category_vehicles/boxcar_09.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 288
+      }
+    },
+    "category_vehicles/boxcar_11": {
+      "name": "boxcar_11",
+      "categories": ["vehicles"],
+      "frameCount": 1,
+      "frameSize": {
+        "x": 400,
+        "y": 288
+      },
+      "looping": true,
+      "frameDelay": 2,
+      "jsonLastModified": "2021-01-20 00:37:48 UTC",
+      "pngLastModified": "2021-01-20 00:37:48 UTC",
+      "version": "TNjGhOkPFQgtGBmF_wQS0tgTCdonC0qt",
+      "sourceUrl": "/api/v1/animation-library/spritelab/TNjGhOkPFQgtGBmF_wQS0tgTCdonC0qt/category_vehicles/boxcar_11.png",
+      "sourceSize": {
+        "x": 400,
+        "y": 288
+      }
+    }
+  },
+  "collections": {
+    "blue": [
+      "category_aquatic_objects/shell_08",
+      "category_aquatic_objects/underseadeco_32",
+      "category_faces/gameplayfaces_04",
+      "category_fantasy/alienBlue"
+    ],
+    "red/pink": [
+      "category_aquatic_objects/shell_01",
+      "category_aquatic_objects/underseadeco_25",
+      "category_faces/gameplayfaces_02",
+      "category_fantasy/alienPink",
+      "category_vehicles/blimp_03",
+      "category_vehicles/boxcar_07",
+      "category_buildings/beachhouse_08"
+    ],
+    "brown": [
+      "category_aquatic_objects/shell_04",
+      "category_buildings/beachhouse_03",
+      "category_buildings/beachhouse_05",
+      "category_buildings/beachhouse_08",
+      "category_fantasy/alienBeige",
+      "category_music/cello",
+      "category_music/double_bass",
+      "category_vehicles/boat"
+    ],
+    "stuff i like": [
+      "category_vehicles/boxcar_07",
+      "category_aquatic_objects/shell_01",
+      "category_aquatic_objects/underseadeco_34",
+      "category_faces/gameplayfaces_03",
+      "category_faces/gameplayfaces_04"
+    ]
+  },
+
+  "categories": {
+    "aquatic_objects": [
+      "category_aquatic_objects/bubble",
+      "category_aquatic_objects/shell_01",
+      "category_aquatic_objects/shell_02",
+      "category_aquatic_objects/shell_03",
+      "category_aquatic_objects/shell_04",
+      "category_aquatic_objects/shell_06",
+      "category_aquatic_objects/shell_08",
+      "category_aquatic_objects/underseadeco_24",
+      "category_aquatic_objects/underseadeco_25",
+      "category_aquatic_objects/underseadeco_32",
+      "category_aquatic_objects/underseadeco_34"
+    ],
+    "backgrounds": [
+      "category_backgrounds/abstract_08",
+      "category_backgrounds/abstract_15",
+      "category_backgrounds/abstract_16",
+      "category_backgrounds/abstract_21",
+      "category_backgrounds/abstract_26"
+    ],
+    "buildings": [
+      "category_buildings/beachhouse_01",
+      "category_buildings/beachhouse_03",
+      "category_buildings/beachhouse_05",
+      "category_buildings/beachhouse_08"
+    ],
+    "faces": [
+      "category_faces/gameplayfaces_02",
+      "category_faces/gameplayfaces_03",
+      "category_faces/gameplayfaces_04"
+    ],
+    "fantasy": [
+      "category_fantasy/alienBeige",
+      "category_fantasy/alienBlue",
+      "category_fantasy/alienGreen",
+      "category_fantasy/alienPink",
+      "category_fantasy/alienYellow"
+    ],
+    "music": [
+      "category_music/bass_clef",
+      "category_music/bugle",
+      "category_music/cello",
+      "category_music/double_bass",
+      "category_music/drum_set",
+      "category_music/eighth_note",
+      "category_music/eighth_note_down"
+    ],
+    "vehicles": [
+      "category_vehicles/blimp_01",
+      "category_vehicles/blimp_03",
+      "category_vehicles/boat",
+      "category_vehicles/boxcar_07",
+      "category_vehicles/boxcar_09",
+      "category_vehicles/boxcar_11"
+    ]
+  },
+  "aliases": {
+    "alien beige": ["category_fantasy/alienBeige"],
+    "alien blue": ["category_fantasy/alienBlue"],
+    "alien green": ["category_fantasy/alienGreen"],
+    "alien pink": ["category_fantasy/alienPink"],
+    "alien yellow": ["category_fantasy/alienYellow"]
+  }
+}
