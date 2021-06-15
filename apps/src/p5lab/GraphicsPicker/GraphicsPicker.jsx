@@ -4,16 +4,36 @@ import {connect} from 'react-redux';
 import StylizedBaseDialog from '@cdo/apps/templates/StylizedBaseDialog';
 import StylizedTabView from '@cdo/apps/templates/StylizedTabView.jsx';
 import {hide} from '../redux/animationPicker';
+import CollectionTile from './CollectionTile.jsx';
+import tmpCostumeLibrary from './tmpCostumeLibrary.json';
 
 function GraphicsPicker(props) {
-  function getBody() {
+  function renderCollectionsTab() {
+    console.log(tmpCostumeLibrary);
+    return (
+      <div>
+        {Object.keys(tmpCostumeLibrary.collections).map(collectionName => (
+          <CollectionTile
+            key={collectionName}
+            name={collectionName}
+            imageUrl={
+              'https://studio.code.org/blockly/media/p5lab/animation-previews/category_all.png'
+            }
+            assets={tmpCostumeLibrary.collections[collectionName]}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  function getModalBody() {
     return (
       <StylizedTabView
         tabs={[
           {
             key: 'collections',
             name: 'Collections',
-            renderFn: () => <div>Collections</div>
+            renderFn: renderCollectionsTab
           },
           {
             key: 'costumes',
@@ -36,7 +56,7 @@ function GraphicsPicker(props) {
       handleClose={props.onClose}
       handleConfirmation={props.onClose}
       title={'Graphics Picker'}
-      body={getBody()}
+      body={getModalBody()}
     />
   );
 }
