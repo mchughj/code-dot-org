@@ -20,6 +20,11 @@ class GraphicsPicker extends React.Component {
     selectedCollection: undefined
   };
 
+  handleClose() {
+    this.setState({selectedCollection: undefined});
+    this.props.onClose();
+  }
+
   renderCollectionsTab() {
     return this.state.selectedCollection ? (
       <div>
@@ -91,8 +96,8 @@ class GraphicsPicker extends React.Component {
     return (
       <StylizedBaseDialog
         isOpen={this.props.visible}
-        handleClose={this.props.onClose}
-        handleConfirmation={this.props.onClose}
+        handleClose={this.handleClose.bind(this)}
+        handleConfirmation={this.handleClose.bind(this)}
         title={'Graphics Picker'}
         body={this.getModalBody()}
       />
