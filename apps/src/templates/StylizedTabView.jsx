@@ -24,25 +24,31 @@ export default class StylizedTabView extends React.Component {
     this.setState({activeTab: tabInfo});
   }
 
+  tmpFn(tabInfo) {
+    console.log(tabInfo);
+    return (
+      <div
+        style={Object.assign(
+          {},
+          styles.tab,
+          this.state.activeTab.key === tabInfo.key
+            ? styles.activeTab
+            : styles.inactiveTab
+        )}
+        key={tabInfo.key}
+        onClick={() => this.setState({activeTab: tabInfo})}
+      >
+        {tabInfo.name}
+      </div>
+    );
+  }
+
   render() {
+    console.log(this.state.activeTab);
     return (
       <div>
         <div style={styles.tabContainer}>
-          {this.props.tabs.map(tabInfo => (
-            <div
-              style={Object.assign(
-                {},
-                styles.tab,
-                this.state.activeTab === tabInfo
-                  ? styles.activeTab
-                  : styles.inactiveTab
-              )}
-              key={tabInfo.key}
-              onClick={() => this.setState({activeTab: tabInfo})}
-            >
-              {tabInfo.name}
-            </div>
-          ))}
+          {this.props.tabs.map(tabInfo => this.tmpFn(tabInfo))}
         </div>
         {this.state.activeTab && this.state.activeTab.renderFn()}
       </div>

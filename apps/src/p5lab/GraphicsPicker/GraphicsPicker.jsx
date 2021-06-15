@@ -3,14 +3,50 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import StylizedBaseDialog from '@cdo/apps/templates/StylizedBaseDialog';
 import StylizedTabView from '@cdo/apps/templates/StylizedTabView.jsx';
+import Button from '@cdo/apps/templates/Button';
+import color from '@cdo/apps/util/color';
 import {hide} from '../redux/animationPicker';
 import CollectionTile from './CollectionTile.jsx';
+import GraphicsTile from './GraphicsTile.jsx';
 import tmpCostumeLibrary from './tmpCostumeLibrary.json';
 
-function GraphicsPicker(props) {
-  function renderCollectionsTab() {
-    console.log(tmpCostumeLibrary);
-    return (
+class GraphicsPicker extends React.Component {
+  static propTypes = {
+    visible: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired
+  };
+
+  state = {
+    selectedCollection: undefined
+  };
+
+  renderCollectionsTab() {
+    return this.state.selectedCollection ? (
+      <div>
+        <div style={styles.headerRow}>
+          <Button
+            text="Back"
+            onClick={() => this.setState({selectedCollection: undefined})}
+            color={Button.ButtonColor.blue}
+            size={Button.ButtonSize.medium}
+            style={styles.backButton}
+          />
+          <h1 style={styles.header}>{this.state.selectedCollection}</h1>
+        </div>
+        <hr style={styles.hr} />
+        <div>
+          {tmpCostumeLibrary.collections[this.state.selectedCollection].map(
+            assetName => (
+              <GraphicsTile
+                key={assetName}
+                imageUrl={tmpCostumeLibrary.metadata[assetName].sourceUrl}
+                name={tmpCostumeLibrary.metadata[assetName].name}
+              />
+            )
+          )}
+        </div>
+      </div>
+    ) : (
       <div>
         {Object.keys(tmpCostumeLibrary.collections).map(collectionName => (
           <CollectionTile
@@ -20,20 +56,21 @@ function GraphicsPicker(props) {
               'https://studio.code.org/blockly/media/p5lab/animation-previews/category_all.png'
             }
             assets={tmpCostumeLibrary.collections[collectionName]}
+            onSelect={() => this.setState({selectedCollection: collectionName})}
           />
         ))}
       </div>
     );
   }
 
-  function getModalBody() {
+  getModalBody() {
     return (
       <StylizedTabView
         tabs={[
           {
             key: 'collections',
             name: 'Collections',
-            renderFn: renderCollectionsTab
+            renderFn: this.renderCollectionsTab.bind(this)
           },
           {
             key: 'costumes',
@@ -50,20 +87,35 @@ function GraphicsPicker(props) {
     );
   }
 
-  return (
-    <StylizedBaseDialog
-      isOpen={props.visible}
-      handleClose={props.onClose}
-      handleConfirmation={props.onClose}
-      title={'Graphics Picker'}
-      body={getModalBody()}
-    />
-  );
+  render() {
+    return (
+      <StylizedBaseDialog
+        isOpen={this.props.visible}
+        handleClose={this.props.onClose}
+        handleConfirmation={this.props.onClose}
+        title={'Graphics Picker'}
+        body={this.getModalBody()}
+      />
+    );
+  }
 }
 
-GraphicsPicker.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+const styles = {
+  headerRow: {
+    textAlign: 'center'
+  },
+  header: {
+    fontFamily: '"Gotham 4r", sans-serif',
+    fontSize: 20,
+    marginBottom: 5
+  },
+  hr: {
+    margin: 0,
+    color: color.purple
+  },
+  backButton: {
+    float: 'left'
+  }
 };
 
 export default connect(

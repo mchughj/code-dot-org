@@ -3,28 +3,23 @@ import Radium from 'radium';
 import PropTypes from 'prop-types';
 import color from '@cdo/apps/util/color';
 
-function CollectionTile(props) {
+function GraphicsTile(props) {
   return (
-    <div style={styles.container} onClick={props.onSelect}>
+    <div style={styles.container}>
       <img style={styles.thumbnail} src={props.imageUrl} />
       <div style={styles.name}>{props.name}</div>
     </div>
   );
 }
 
-CollectionTile.propTypes = {
+GraphicsTile.propTypes = {
   name: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  assets: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onSelect: PropTypes.func.isRequired
-};
-
-CollectionTile.defaultProps = {
-  assets: []
+  imageUrl: PropTypes.string.isRequired
 };
 
 const styles = {
   container: {
+    textAlign: 'center',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: color.light_gray,
@@ -40,7 +35,9 @@ const styles = {
     }
   },
   thumbnail: {
-    width: 105
+    width: 100,
+    height: 100,
+    objectFit: 'contain'
   },
   name: {
     padding: 4,
@@ -48,4 +45,4 @@ const styles = {
   }
 };
 
-export default Radium(CollectionTile);
+export default Radium(GraphicsTile);
