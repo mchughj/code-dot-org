@@ -78,7 +78,6 @@ import project from '@cdo/apps/code-studio/initApp/project';
 import {setExportGeneratedProperties} from '@cdo/apps/code-studio/components/exportDialogRedux';
 import {hasInstructions} from '@cdo/apps/templates/instructions/utils';
 import {setLocaleCode} from '@cdo/apps/redux/localesRedux';
-import CoreLibrary from './spritelab/CoreLibrary';
 
 const defaultMobileControlsConfig = {
   spaceButtonVisible: true,
@@ -514,7 +513,6 @@ P5Lab.prototype.init = function(config) {
             onMount={onMount}
             pauseHandler={this.onPause}
             hidePauseButton={!!this.level.hidePauseButton}
-            onPromptAnswer={this.onPromptAnswer?.bind(this)}
           />
         </Provider>,
         document.getElementById(config.containerId)
@@ -1084,12 +1082,11 @@ P5Lab.prototype.initInterpreter = function(attachDebugger = true) {
     }
 
     if (this.isSpritelab) {
-      this.coreLibrary = new CoreLibrary(this.p5Wrapper.p5);
-      const spritelabCommands = this.coreLibrary.commands;
+      const spritelabCommands = this.commands;
       for (const command in spritelabCommands) {
         this.JSInterpreter.createGlobalProperty(
           command,
-          spritelabCommands[command].bind(this.coreLibrary),
+          spritelabCommands[command].bind(this.p5Wrapper.p5),
           null
         );
       }

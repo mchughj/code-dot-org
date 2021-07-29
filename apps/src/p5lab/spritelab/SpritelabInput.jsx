@@ -5,7 +5,8 @@ import memoize from 'memoize-one';
 import * as shapes from '../shapes';
 import {KeyCodes} from '@cdo/apps/constants';
 import {selectors} from '@cdo/apps/lib/tools/jsdebugger/redux';
-import {PromptType} from '../redux/spritelabInput';
+import {PromptType, popPrompt} from '../redux/spritelabInput';
+import * as coreLibrary from './coreLibrary';
 
 class SpritelabInput extends React.Component {
   static propTypes = {
@@ -34,7 +35,8 @@ class SpritelabInput extends React.Component {
     if (!variableName) {
       return;
     }
-    this.props.onPromptAnswer(variableName, value);
+    this.props.onPromptAnswer();
+    coreLibrary.onPromptAnswer(variableName, value);
   }
 
   onInputKeyDown = e => {
@@ -238,9 +240,14 @@ const styles = {
   }
 };
 
-export default connect(state => ({
-  animationList: state.animationList,
-  inputList: state.spritelabInputList || [],
-  isRunning: selectors.isRunning(state),
-  isPaused: selectors.isPaused(state)
-}))(SpritelabInput);
+export default connect(
+  state => ({
+    animationList: state.animationList,
+    inputList: state.spritelabInputList || [],
+    isRunning: selectors.isRunning(state),
+    isPaused: selectors.isPaused(state)
+  }),
+  dispatch => ({
+    onPromptAnswer: () => dispatch(popPrompt())
+  })
+)(SpritelabInput);

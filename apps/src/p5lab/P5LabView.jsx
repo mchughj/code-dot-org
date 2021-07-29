@@ -30,7 +30,6 @@ class P5LabView extends React.Component {
     onMount: PropTypes.func.isRequired,
     pauseHandler: PropTypes.func.isRequired,
     hidePauseButton: PropTypes.bool.isRequired,
-    onPromptAnswer: PropTypes.func,
     // Provided by Redux
     interfaceMode: PropTypes.oneOf([
       P5LabInterfaceMode.CODE,
@@ -116,7 +115,6 @@ class P5LabView extends React.Component {
             finishButton={showFinishButton}
             pauseHandler={this.props.pauseHandler}
             hidePauseButton={this.props.hidePauseButton}
-            onPromptAnswer={this.props.onPromptAnswer}
           />
           {this.getChannelId() && (
             <AnimationPicker

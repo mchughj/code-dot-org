@@ -1,49 +1,50 @@
+import * as coreLibrary from '../coreLibrary';
+
 export const commands = {
   getAnimationsInUse() {
-    return this.getAnimationsInUse();
+    return coreLibrary.getAnimationsInUse();
   },
 
   getBackground() {
-    const background = this.getBackground();
-    if (typeof background === 'string') {
-      return background;
+    if (typeof coreLibrary.background === 'string') {
+      return coreLibrary.background;
     } else {
-      return background.name;
+      return coreLibrary.background.name;
     }
   },
 
   getEventLog() {
-    return this.eventLog;
+    return coreLibrary.eventLog;
   },
 
   getNumBehaviorsForAnimation(animation) {
-    return this.getNumBehaviorsForAnimation(animation);
+    return coreLibrary.getNumBehaviorsForAnimation(animation);
   },
 
   getNumBehaviorsForSpriteId(spriteId) {
-    return this.getNumBehaviorsForSpriteId(spriteId);
+    return coreLibrary.getNumBehaviorsForSpriteId(spriteId);
   },
 
   getBehaviorsForSpriteId(spriteId) {
-    return this.getBehaviorsForSpriteId(spriteId);
+    return coreLibrary.getBehaviorsForSpriteId(spriteId);
   },
 
   getPrintLog() {
-    return this.printLog;
+    return coreLibrary.printLog;
   },
 
   getPromptVars() {
-    return this.promptVars;
+    return coreLibrary.promptVars;
   },
 
   getSpriteIdsInUse() {
-    return this.getSpriteIdsInUse();
+    return coreLibrary.getSpriteIdsInUse();
   },
 
   getTitle() {
     return {
-      title: this.screenText.title,
-      subtitle: this.screenText.subtitle
+      title: coreLibrary.screenText.title,
+      subtitle: coreLibrary.screenText.subtitle
     };
   }
 };

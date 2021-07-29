@@ -1,3 +1,5 @@
+import * as coreLibrary from '../coreLibrary';
+
 export const commands = {
   locationAt(x, y) {
     return {x: x, y: 400 - y};
@@ -22,11 +24,11 @@ export const commands = {
   },
 
   locationMouse() {
-    return {x: this.p5.World.mouseX, y: this.p5.World.mouseY};
+    return {x: this.World.mouseX, y: this.World.mouseY};
   },
 
   locationOf(spriteArg) {
-    let sprite = this.getSpriteArray(spriteArg)[0];
+    let sprite = coreLibrary.getSpriteArray(spriteArg)[0];
     if (sprite) {
       return {x: sprite.x, y: sprite.y};
     }
