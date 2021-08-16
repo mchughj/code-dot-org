@@ -5,12 +5,6 @@ import {commands as foregroundEffects} from '../commands/poembot/foregroundEffec
 const OUTER_MARGIN = 50;
 const LINE_HEIGHT = 50;
 const FONT_SIZE = 25;
-const TextType = {
-  BLANK: 'blank',
-  LITERAL: 'literal',
-  RANDOM: 'random'
-};
-const BLANK_TEXT = {value: '', type: TextType.BLANK};
 const PLAYSPACE_SIZE = 400;
 
 export default class PoemBotLibrary extends CoreLibrary {
@@ -28,6 +22,8 @@ export default class PoemBotLibrary extends CoreLibrary {
     this.foregroundEffect = () => {};
     this.lineEvents = {};
     this.p5.noStroke();
+    this.p5.fill('black');
+    this.layoutInfo = []; // list of objects capturing drawing state
 
     this.commands = {
       // Keep everything from Core Sprite Lab
@@ -54,13 +50,7 @@ export default class PoemBotLibrary extends CoreLibrary {
 
       // And add custom Poem Bot commands
       textConcat(text1, text2) {
-        if (!text1) {
-          return text2;
-        }
-        if (!text2) {
-          return text1;
-        }
-        return [...text1, ...text2];
+        return [text1, text2].join('');
       },
 
       randomWord() {
@@ -71,7 +61,8 @@ export default class PoemBotLibrary extends CoreLibrary {
       },
 
       addLine(line) {
-        this.poem.lines.push(line || [BLANK_TEXT]);
+        this.poem.lines.push(line || '');
+        this.layoutPoem();
       },
 
       setFontColor(color) {
@@ -82,16 +73,18 @@ export default class PoemBotLibrary extends CoreLibrary {
         this.p5.textFont(font);
       },
 
-      setTitle(line) {
-        if (line) {
-          this.poem.title = line[0].value;
+      setTitle(title) {
+        if (title) {
+          this.poem.title = title;
         }
+        this.layoutPoem();
       },
 
-      setAuthor(line) {
-        if (line) {
-          this.poem.author = line[0].value;
+      setAuthor(author) {
+        if (author) {
+          this.poem.author = author;
         }
+        this.layoutPoem();
       },
 
       showPoem() {
@@ -108,22 +101,12 @@ export default class PoemBotLibrary extends CoreLibrary {
             title: 'I Wandered Lonely as a Cloud',
             author: 'William Wordsworth',
             lines: [
-              [{value: 'I wandered lonely as a cloud', type: 'literal'}],
-              [
-                {
-                  value: "That floats on high o'er vales and hills,",
-                  type: 'literal'
-                }
-              ],
-              [{value: 'When all at once I saw a crowd,', type: 'literal'}],
-              [{value: 'A host, of golden daffodils;', type: 'literal'}],
-              [{value: 'Beside the lake, beneath the trees,', type: 'literal'}],
-              [
-                {
-                  value: 'Fluttering and dancing in the breeze.',
-                  type: 'literal'
-                }
-              ]
+              'I wandered lonely as a cloud',
+              "That floats on high o'er vales and hills,",
+              'When all at once I saw a crowd,',
+              'A host, of golden daffodils;',
+              'Beside the lake, beneath the trees,',
+              'Fluttering and dancing in the breeze.'
             ]
           };
         } else if (key === 'dickinson') {
@@ -131,18 +114,13 @@ export default class PoemBotLibrary extends CoreLibrary {
             title: 'If I can Stop one Heart from Breaking',
             author: 'Emily Dickinson',
             lines: [
-              [
-                {
-                  value: 'If I can stop one heart from breaking,',
-                  type: 'literal'
-                }
-              ],
-              [{value: 'I shall not live in vain;', type: 'literal'}],
-              [{value: 'If I can ease one life the aching,', type: 'literal'}],
-              [{value: 'Or cool one pain,', type: 'literal'}],
-              [{value: 'Or help one fainting robin', type: 'literal'}],
-              [{value: 'Unto his nest again,', type: 'literal'}],
-              [{value: 'I shall not live in vain.', type: 'literal'}]
+              'If I can stop one heart from breaking,',
+              'I shall not live in vain;',
+              'If I can ease one life the aching,',
+              'Or cool one pain,',
+              'Or help one fainting robin',
+              'Unto his nest again,',
+              'I shall not live in vain.'
             ]
           };
         } else if (key === 'silverstein') {
@@ -150,13 +128,18 @@ export default class PoemBotLibrary extends CoreLibrary {
             title: 'Batty',
             author: 'Shel Silverstein',
             lines: [
-              [{value: 'The baby bat', type: 'literal'}],
-              [{value: 'Screamed out in fright', type: 'literal'}],
-              [{value: "'Turn on the dark;", type: 'literal'}],
-              [{value: "I'm afraid of the light.'", type: 'literal'}]
+              'The baby bat',
+              'Screamed out in fright',
+              "'Turn on the dark;",
+              "I'm afraid of the light.'"
             ]
           };
         }
+        this.layoutPoem();
+      },
+
+      setTextEffect(effect) {
+        console.log(effect);
       },
 
       whenLineShows(lineNum, callback) {
@@ -189,46 +172,47 @@ export default class PoemBotLibrary extends CoreLibrary {
   }
 
   drawPoem() {
+    console.log('drawPoem');
+    this.layoutInfo.forEach(item => {
+      this.p5.textSize(item.size);
+      this.p5.text(item.text, item.x, item.y);
+    });
+  }
+
+  layoutPoem() {
+    console.log('layoutPoem');
+    this.layoutInfo = [];
     let yCursor = OUTER_MARGIN;
     this.p5.textSize(FONT_SIZE);
     this.p5.textAlign(this.p5.CENTER);
     if (this.poem.title) {
-      this.p5.textSize(this.getScaledFontSize(this.poem.title, FONT_SIZE * 2));
-      this.p5.text(this.poem.title, PLAYSPACE_SIZE / 2, yCursor);
-      this.p5.textSize(FONT_SIZE);
+      this.layoutInfo.push({
+        text: this.poem.title,
+        x: PLAYSPACE_SIZE / 2,
+        y: yCursor,
+        size: this.getScaledFontSize(this.poem.title, FONT_SIZE * 2)
+      });
       yCursor += LINE_HEIGHT;
     }
     if (this.poem.author) {
       yCursor -= LINE_HEIGHT / 2;
-      this.p5.textSize(this.getScaledFontSize(this.poem.author, 16));
-      this.p5.text(this.poem.author, PLAYSPACE_SIZE / 2, yCursor);
-      this.p5.textSize(FONT_SIZE);
+      this.layoutInfo.push({
+        text: this.poem.author,
+        x: PLAYSPACE_SIZE / 2,
+        y: yCursor,
+        size: FONT_SIZE
+      });
       yCursor += LINE_HEIGHT;
     }
-
     const lineHeight = (PLAYSPACE_SIZE - yCursor) / this.poem.lines.length;
-    this.poem.lines.slice(0, this.currentLine).forEach(line => {
-      this.drawPoemLine(line, yCursor);
-      this.p5.textSize(FONT_SIZE);
+    this.poem.lines.forEach(line => {
+      this.layoutInfo.push({
+        text: line,
+        x: PLAYSPACE_SIZE / 2,
+        y: yCursor,
+        size: this.getScaledFontSize(line, FONT_SIZE)
+      });
       yCursor += lineHeight;
-    });
-  }
-
-  drawPoemLine(line, yPos) {
-    // Concatenate all the text values together so we can compute the length
-    // of the printed text
-    const fullLine = line.map(textItem => textItem.value).join(' ');
-    this.p5.textSize(this.getScaledFontSize(fullLine, FONT_SIZE));
-
-    // compute line width with scaled textSize
-    let fullWidth = this.p5.textWidth(fullLine);
-
-    const start = PLAYSPACE_SIZE / 2 - fullWidth / 2;
-    this.p5.textAlign(this.p5.LEFT);
-    let xCursor = start;
-    line.forEach(textItem => {
-      this.p5.text(textItem.value, xCursor, yPos);
-      xCursor += this.p5.textWidth(textItem.value + ' ');
     });
   }
 }
