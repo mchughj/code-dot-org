@@ -35,6 +35,7 @@ class GamelabJr < Gamelab
     hide_pause_button
     blockly_variables
     instructions_icon
+    default_poem
   )
 
   def shared_blocks
@@ -66,6 +67,14 @@ class GamelabJr < Gamelab
         }
       )
     )
+  end
+
+  def self.hoc_poems
+    [
+      ['I Wandered Lonely as a Cloud'],
+      ['If I can Stop one Heart from Breaking'],
+      ['Batty']
+    ]
   end
 
   def common_blocks(type)
