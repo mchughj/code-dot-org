@@ -56,6 +56,11 @@ class ResizablePanes extends Component {
     }
 
     const resizingPaneDOMNode = ReactDOM.findDOMNode(resizingPane);
+    console.log(
+      'ResizablePanes.onMouseMove:59',
+      'resizingPaneDOMNode:',
+      resizingPaneDOMNode
+    );
     if (!resizingPaneDOMNode.getBoundingClientRect) {
       return;
     }

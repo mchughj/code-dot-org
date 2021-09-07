@@ -152,6 +152,7 @@ export default class BlockSvgUnused {
     // getBoundingClientRect would take our size into account, and we
     // would 'grow' every time render was called.
     this.frameGroup_.remove();
+    console.log('blockSvgUnused.render:155', 'svgGroup:', svgGroup);
     var groupRect = svgGroup.getBoundingClientRect();
     svgGroup.prepend(this.frameGroup_);
 
@@ -164,6 +165,16 @@ export default class BlockSvgUnused {
 
     this.bindClickEvent();
 
+    console.log(
+      'blockSvgUnused.render:168',
+      'this.frameText_:',
+      this.frameText_
+    );
+    console.log(
+      'blockSvgUnused.render:174',
+      'this.frameHelp_:',
+      this.frameHelp_
+    );
     var minWidth =
       this.frameText_.getBoundingClientRect().width +
       this.frameHelp_.getBoundingClientRect().width;

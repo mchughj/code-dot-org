@@ -1606,6 +1606,11 @@ StudioApp.prototype.resizeToolboxHeader = function() {
   ) {
     // If in the droplet editor, set toolboxWidth based on the block palette width:
     var categories = document.querySelector('.droplet-palette-wrapper');
+    console.log(
+      'StudioApp.resizeToolboxHeader:1609',
+      'categories:',
+      categories
+    );
     toolboxWidth = categories.getBoundingClientRect().width;
   } else if (this.isUsingBlockly()) {
     toolboxWidth = Blockly.mainBlockSpaceEditor.getToolboxWidth();

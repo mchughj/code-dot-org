@@ -61,6 +61,11 @@ export default class ListItemThumbnail extends React.Component {
   forceResize = () => this.recalculatePreviewSize();
 
   recalculatePreviewSize() {
+    console.log(
+      'ListItemThumbnail.recalculatePreviewSize:64',
+      'this.refs.wrapper:',
+      this.refs.wrapper
+    );
     this.setState({
       previewSize: this.refs.wrapper.getBoundingClientRect().width
     });

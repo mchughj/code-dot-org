@@ -305,6 +305,11 @@ class TopInstructions extends Component {
    * via a call to handleHeightResize from HeightResizer.
    */
   getItemTop = () => {
+    console.log(
+      'TopInstructions.getItemTop:308',
+      'this.topInstructions:',
+      this.topInstructions
+    );
     return this.topInstructions.getBoundingClientRect().top;
   };
 

@@ -714,6 +714,11 @@ P5Lab.prototype.loadAudio_ = function() {
 P5Lab.prototype.calculateVisualizationScale_ = function() {
   var divGameLab = document.getElementById('divGameLab');
   // Calculate current visualization scale:
+  console.log(
+    'P5Lab.calculateVisualizationScale_:717',
+    'divGameLab:',
+    divGameLab
+  );
   return divGameLab.getBoundingClientRect().width / divGameLab.offsetWidth;
 };
 

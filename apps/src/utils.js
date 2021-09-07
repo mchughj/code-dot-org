@@ -814,6 +814,7 @@ export function createHiddenPrintWindow(src) {
 }
 
 export function calculateOffsetCoordinates(element, clientX, clientY) {
+  console.log('utils.calculateOffsetCoordinates:817', 'element:', element);
   const rect = element.getBoundingClientRect();
   return {
     x: Math.round(((clientX - rect.left) * element.offsetWidth) / rect.width),

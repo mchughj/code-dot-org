@@ -102,6 +102,11 @@ class VisualizationResizeBar extends React.Component {
   };
 
   onMouseMove = event => {
+    console.log(
+      'VisualizationResizeBar.onMouseMove:106',
+      'this.domElement:',
+      this.domElement
+    );
     const rect = this.domElement.getBoundingClientRect();
     let offset;
     let newVizWidth;

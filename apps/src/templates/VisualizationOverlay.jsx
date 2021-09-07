@@ -58,6 +58,7 @@ export class VisualizationOverlay extends React.Component {
 
   recalculateTransform = () => {
     const svg = this.refs.root;
+    console.log('VisualizationOverlay.recalculateTransform:61', 'svg:', svg);
     const clientRect = svg.getBoundingClientRect();
 
     // If the svg has no width or no height, we can't trust it; skip
