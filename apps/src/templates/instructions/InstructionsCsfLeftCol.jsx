@@ -39,7 +39,8 @@ class InstructionsCsfLeftCol extends React.Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    console.log('UPDATING InstructionsCsfLeftCol', prevProps, prevState);
     this.updateDimensions();
   }
 

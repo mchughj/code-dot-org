@@ -269,12 +269,14 @@ class InstructionsCSF extends React.Component {
 
   // needed to set width for ThreeColumns
   setRightColWidth = width => {
+    console.log('InstructionsCSF setRightColWidth', width);
     width !== this.state.rightColWidth &&
       this.setState({rightColWidth: width || 0});
   };
 
   // needed to set width for ThreeColumns
   setLeftColWidth = width => {
+    console.log('InstructionsCSF setLeftColWidth', width);
     width !== this.state.leftColWidth &&
       this.setState({leftColWidth: width || 0});
   };
