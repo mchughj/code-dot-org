@@ -72,12 +72,18 @@ class InstructionsCsfRightCol extends React.Component {
   }
 
   getColumnWidth() {
+    // TODO: is this constantly returning a value within a pixel due to
+    // a rounding error?
     const collapserWidth = this.shouldDisplayCollapserButton()
       ? $(ReactDOM.findDOMNode(this.collapser)).outerWidth(true)
       : 0;
     const scrollButtonWidth = this.props.displayScrollButtons
       ? $(ReactDOM.findDOMNode(this.scrollButtons)).outerWidth(true)
       : 0;
+
+    console.log(
+      `collapserWidth === ${collapserWidth} / scrollButtonWidth === ${scrollButtonWidth}`
+    );
     return Math.max(collapserWidth, scrollButtonWidth);
   }
 
