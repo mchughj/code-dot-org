@@ -115,6 +115,8 @@ class InstructionsCSF extends React.Component {
    * again, we want to increase height.
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log('RECEIVING PROPS InstructionsCSF', nextProps);
+
     const minHeight = this.getMinHeight(nextProps.collapsed);
     const newHeight = Math.min(nextProps.maxHeight, minHeight);
 
@@ -128,6 +130,8 @@ class InstructionsCSF extends React.Component {
   }
 
   UNSAFE_componentWillUpdate(nextProps) {
+    console.log('UPDATING InstructionsCSF', nextProps);
+
     const gotNewFeedback = !this.props.feedback && nextProps.feedback;
     if (gotNewFeedback) {
       this.setState({

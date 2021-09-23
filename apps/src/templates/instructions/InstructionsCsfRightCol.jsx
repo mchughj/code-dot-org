@@ -48,7 +48,9 @@ class InstructionsCsfRightCol extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log('UPDATING InstructionsCsfRightCol', prevProps, prevState);
-    this.updateDimensions();
+    if (this.props.height !== prevProps.height) {
+      this.updateDimensions();
+    }
   }
 
   updateDimensions() {
