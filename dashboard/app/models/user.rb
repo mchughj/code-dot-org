@@ -763,7 +763,7 @@ class User < ApplicationRecord
     end
 
     # clever provides us these fields
-    if user.user_type == TYPE_TEACHER
+    if user.teacher?
       user.age = 21
     else
       # As the omniauth spec (https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema) does not
@@ -1331,10 +1331,6 @@ class User < ApplicationRecord
   end
 
   alias :verified_teacher? :authorized_teacher?
-
-  def student_of_authorized_teacher?
-    teachers.any?(&:authorized_teacher?)
-  end
 
   def student_of?(teacher)
     teachers.include? teacher
