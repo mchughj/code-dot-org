@@ -188,7 +188,7 @@ class ApiController < ApplicationController
         return head :bad_request
       end
 
-      unless User.find(user_level_data[:user_id]).teachers.include? current_user
+      unless User.find(user_level_data[:user_id]).student_of? current_user
         # Can only update lockable state for user's students
         return head :forbidden
       end
