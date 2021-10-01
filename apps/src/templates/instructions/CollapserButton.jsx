@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import color from '../../util/color';
 import FontAwesome from '../FontAwesome';
-import msg from '@cdo/locale';
+// import msg from '@cdo/locale';
 
 /**
  * A button for toggling the collapse state of instructions in CSF
@@ -46,7 +46,7 @@ class CollapserButton extends Component {
             }
           />
         )}
-        {this.props.collapsed ? msg.more() : msg.less()}
+        {/* {this.props.collapsed ? msg.more() : msg.less()} */}
       </button>
     );
   }
