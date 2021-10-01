@@ -255,6 +255,12 @@ class TopInstructions extends Component {
    * If we then resize it to be larger again, we want to increase height.
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log(
+      'TopInstructions componentWillReceiveProps',
+      this.props,
+      nextProps
+    );
+
     if (
       !nextProps.isCollapsed &&
       nextProps.height < MIN_HEIGHT &&
@@ -368,6 +374,9 @@ class TopInstructions extends Component {
       RESIZER_HEIGHT;
 
     if (maxHeight !== maxNeededHeight) {
+      console.log(
+        `Calling setInstructionsMaxHeightNeeded - maxHeight: ${maxHeight} / maxNeededHeight: ${maxNeededHeight}`
+      );
       setInstructionsMaxHeightNeeded(maxNeededHeight);
     }
     return maxNeededHeight;

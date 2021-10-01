@@ -115,7 +115,11 @@ class InstructionsCSF extends React.Component {
    * again, we want to increase height.
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('RECEIVING PROPS InstructionsCSF', nextProps);
+    console.log(
+      'InstructionsCSF componentWillReceiveProps',
+      this.props,
+      nextProps
+    );
 
     const minHeight = this.getMinHeight(nextProps.collapsed);
     const newHeight = Math.min(nextProps.maxHeight, minHeight);
@@ -125,12 +129,16 @@ class InstructionsCSF extends React.Component {
       : nextProps.height < minHeight && nextProps.height < nextProps.maxHeight;
 
     if (shouldUpdateHeight) {
+      console.log(
+        'InstructionsCSF calling setInstructionsRenderedHeight with ' +
+          newHeight
+      );
       this.props.setInstructionsRenderedHeight(newHeight);
     }
   }
 
   UNSAFE_componentWillUpdate(nextProps) {
-    console.log('UPDATING InstructionsCSF', nextProps);
+    console.log('InstructionsCSF componentWillUpdate', this.props, nextProps);
 
     const gotNewFeedback = !this.props.feedback && nextProps.feedback;
     if (gotNewFeedback) {
@@ -138,6 +146,7 @@ class InstructionsCSF extends React.Component {
         promptForHint: false
       });
       if (nextProps.collapsed) {
+        console.log('InstructionsCSF calling handleClickCollapser');
         this.props.handleClickCollapser();
       }
     }
