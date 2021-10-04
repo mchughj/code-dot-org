@@ -46,8 +46,7 @@ class CollapserButton extends Component {
             }
           />
         )}
-        {msg.less()}
-        {/* {this.props.collapsed ? msg.more() : msg.less()} */}
+        {this.props.collapsed ? msg.more() : msg.less()}
       </button>
     );
   }
