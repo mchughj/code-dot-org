@@ -20,6 +20,7 @@ class CollapserButton extends Component {
   render() {
     // for most tutorials, we use a simple FontAwesome chevron icon for
     // the toggle; for minecraft, we have a custom asset.
+    console.log('rendering CollapserButton');
 
     return (
       <button
